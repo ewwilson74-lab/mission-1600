@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAT Prep — Mission 1600</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0a0e1a;--navy2:#111827;--card:#141d2e;--card2:#1a2540;--gold:#f0b429;--gold2:#ffd166;--teal:#06b6d4;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--text:#e8edf5;--muted:#7a8ba3;--border:rgba(255,255,255,0.07);--radius:16px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(10,14,26,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;font-size:1.25rem;color:var(--gold);letter-spacing:-0.5px;flex-shrink:0}
+.nav-logo span{color:var(--text)}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{padding:6px 14px;border-radius:8px;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.nav-tab:hover{color:var(--text);background:rgba(255,255,255,0.06)}
+.nav-tab.active{color:var(--gold);background:rgba(240,180,41,0.12)}
+.score-badge{font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--gold2);background:rgba(240,180,41,0.15);border:1px solid rgba(240,180,41,0.3);border-radius:8px;padding:4px 12px;flex-shrink:0}
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:40px;height:40px;background:transparent;border:1px solid var(--border);border-radius:8px;cursor:pointer;flex-shrink:0}
+.nav-hamburger span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px;transition:all 0.3s}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;right:0;z-index:190;background:rgba(10,14,26,0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 16px 20px;flex-direction:column;gap:4px;animation:slideDown 0.2s ease}
+.mobile-menu.open{display:flex}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.mobile-nav-tab{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:10px;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;text-align:left;transition:all 0.15s;width:100%}
+.mobile-nav-tab:hover{background:rgba(255,255,255,0.05);color:var(--text)}
+.mobile-nav-tab.active{background:rgba(240,180,41,0.1);color:var(--gold)}
+.mobile-nav-tab .tab-icon{font-size:1.1rem;width:24px;text-align:center}
+.mobile-score-row{display:flex;justify-content:space-between;align-items:center;padding:10px 16px 4px;font-size:0.78rem;color:var(--muted);border-top:1px solid var(--border);margin-top:8px}
+.mobile-score-val{font-family:'DM Mono',monospace;color:var(--gold2)}
+.page{display:none;padding:80px 0 60px}
+.page.active{display:block}
+.container{max-width:900px;margin:0 auto;padding:0 24px}
+.hero{text-align:center;padding:60px 24px 48px;position:relative}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(240,180,41,0.1) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:3px;color:var(--teal);text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,6vw,4rem);font-weight:900;line-height:1.1;color:var(--text);margin-bottom:16px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{color:var(--muted);font-size:1rem;max-width:520px;margin:0 auto 36px;line-height:1.6}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy);font-family:'DM Sans',sans-serif;font-weight:700;font-size:0.95rem;padding:13px 28px;border-radius:12px;border:none;cursor:pointer;transition:all 0.2s;text-decoration:none}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(240,180,41,0.3)}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center}
+.stat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--gold)}
+.stat-label{color:var(--muted);font-size:0.82rem;margin-top:4px}
+.section-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;margin-bottom:20px;color:var(--text)}
+.section-title span{color:var(--gold)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.card-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.card-title{font-weight:600;font-size:1rem}
+.card-sub{color:var(--muted);font-size:0.82rem;margin-top:2px}
+.module-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.module-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:18px}
+.module-box h4{font-size:0.9rem;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.module-box ul{list-style:none}
+.module-box li{font-size:0.82rem;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.module-box li:last-child{border-bottom:none}
+.module-box li span{color:var(--text);font-weight:500}
+.adaptive-diagram{background:var(--card2);border:1px solid rgba(240,180,41,0.2);border-radius:12px;padding:20px;margin-bottom:16px}
+.adaptive-diagram h4{color:var(--gold);font-size:0.9rem;margin-bottom:14px;text-transform:uppercase;letter-spacing:1px;font-family:'DM Mono',monospace}
+.flow-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.flow-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:0.8rem;font-weight:500}
+.flow-arrow{color:var(--muted);font-size:1rem}
+.flow-good{border-color:rgba(16,185,129,0.4);color:var(--green)}
+.phase-block{border-left:3px solid var(--gold);padding-left:20px;margin-bottom:28px}
+.phase-label{font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.phase-title{font-weight:700;font-size:1rem;margin-bottom:8px}
+.phase-body{color:var(--muted);font-size:0.88rem;line-height:1.7}
+.phase-body strong{color:var(--text)}
+.schedule-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:24px}
+.day-cell{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 8px;text-align:center}
+.day-name{font-size:0.7rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.day-task{font-size:0.7rem;color:var(--text);line-height:1.4}
+.day-tag{display:inline-block;font-size:0.65rem;font-weight:600;padding:2px 6px;border-radius:4px;margin-top:4px}
+.tag-math{background:rgba(139,92,246,0.2);color:var(--purple)}
+.tag-rw{background:rgba(6,182,212,0.2);color:var(--teal)}
+.tag-test{background:rgba(240,180,41,0.2);color:var(--gold)}
+.tag-rest{background:rgba(255,255,255,0.05);color:var(--muted)}
+.tag-review{background:rgba(16,185,129,0.2);color:var(--green)}
+.quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px}
+.quiz-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.quiz-top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:10px}
+.quiz-top-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.session-pill{font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--muted);background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;white-space:nowrap}
+.ai-status-strip{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:8px 12px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:8px;font-size:0.75rem}
+.mode-toggle{display:flex;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:3px;gap:2px}
+.mode-btn{padding:7px 16px;border-radius:7px;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.mode-btn.active{background:var(--gold);color:var(--navy);font-weight:700}
+.diff-select{background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.82rem;padding:7px 12px;cursor:pointer}
+.topic-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.topic-btn{padding:8px 6px;border:1px solid var(--border);border-radius:8px;background:var(--card2);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.78rem;cursor:pointer;transition:all 0.2s;text-align:center;width:100%}
+.topic-btn:hover{border-color:rgba(240,180,41,0.4);color:var(--text)}
+.topic-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(240,180,41,0.1)}
+.question-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
+.q-meta{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.q-badge{font-family:'DM Mono',monospace;font-size:0.7rem;padding:3px 10px;border-radius:6px;font-weight:500}
+.q-badge.math{background:rgba(139,92,246,0.2);color:var(--purple)}
+.q-badge.rw{background:rgba(6,182,212,0.2);color:var(--teal)}
+.q-badge.easy{background:rgba(16,185,129,0.15);color:var(--green)}
+.q-badge.medium{background:rgba(240,180,41,0.15);color:var(--gold)}
+.q-badge.hard{background:rgba(239,68,68,0.15);color:var(--red)}
+.q-badge.ai{background:rgba(139,92,246,0.15);color:var(--purple)}
+.q-text{font-size:1rem;line-height:1.7;margin-bottom:20px;color:var(--text)}
+.q-passage{background:var(--card2);border-left:3px solid var(--teal);padding:14px 18px;border-radius:0 8px 8px 0;font-size:0.88rem;line-height:1.7;color:var(--muted);margin-bottom:16px;font-style:italic}
+.choices{display:flex;flex-direction:column;gap:10px}
+.choice-btn{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--card2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--text);text-align:left;transition:all 0.2s;width:100%}
+.choice-btn:hover{border-color:rgba(240,180,41,0.4);background:rgba(240,180,41,0.05)}
+.choice-btn.selected{border-color:var(--gold);background:rgba(240,180,41,0.1)}
+.choice-btn.correct{border-color:var(--green);background:rgba(16,185,129,0.1);color:var(--green)}
+.choice-btn.incorrect{border-color:var(--red);background:rgba(239,68,68,0.1);color:var(--red)}
+.choice-btn.reveal-correct{border-color:var(--green);background:rgba(16,185,129,0.08)}
+.choice-letter{width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:0.8rem;font-weight:600;flex-shrink:0}
+.explain-box{display:none;margin-top:16px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:12px;padding:18px;font-size:0.88rem;line-height:1.7;color:var(--text)}
+.explain-box.show{display:block}
+.explain-box strong{color:var(--green)}
+.quiz-actions{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.btn-action{padding:10px 20px;border-radius:10px;border:1px solid var(--border);background:var(--card2);color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;cursor:pointer;transition:all 0.2s}
+.btn-action:hover{border-color:var(--gold);color:var(--gold)}
+.btn-action.primary{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:700}
+.btn-action.primary:hover{background:var(--gold2)}
+.tip-card-loading{background:var(--card);border:1px solid rgba(240,180,41,0.25);border-radius:var(--radius);padding:28px;margin-bottom:16px;position:relative;overflow:hidden}
+.tip-card-loading::before{content:'';position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:0 0 0 var(--radius);animation:tipProgress var(--tip-duration,8s) linear forwards}
+@keyframes tipProgress{from{width:0%}to{width:100%}}
+.tip-eyebrow{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.tip-eyebrow::after{content:'';flex:1;height:1px;background:rgba(240,180,41,0.2)}
+.tip-category{display:inline-block;font-family:'DM Mono',monospace;font-size:0.65rem;padding:2px 8px;border-radius:4px;margin-bottom:10px;font-weight:600}
+.tip-cat-math{background:rgba(139,92,246,0.15);color:var(--purple)}
+.tip-cat-rw{background:rgba(6,182,212,0.15);color:var(--teal)}
+.tip-cat-strategy{background:rgba(240,180,41,0.15);color:var(--gold)}
+.tip-cat-mindset{background:rgba(16,185,129,0.15);color:var(--green)}
+.tip-cat-desmos{background:rgba(239,68,68,0.15);color:var(--red)}
+.tip-headline{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:10px}
+.tip-body{font-size:0.88rem;color:var(--muted);line-height:1.7}
+.tip-body strong{color:var(--text)}
+.tip-ready-btn{display:none;margin-top:20px;width:100%;padding:13px;background:var(--gold);color:var(--navy);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all 0.2s;animation:btnPulse 0.4s ease}
+.tip-ready-btn:hover{background:var(--gold2);transform:translateY(-1px)}
+@keyframes btnPulse{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.tip-waiting{margin-top:16px;font-size:0.78rem;color:var(--muted);text-align:center;display:flex;align-items:center;justify-content:center;gap:6px}
+.tip-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.progress-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.progress-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.progress-card h4{font-size:0.9rem;font-weight:600;margin-bottom:12px}
+.progress-bar-wrap{margin-bottom:10px}
+.progress-label{display:flex;justify-content:space-between;font-size:0.78rem;color:var(--muted);margin-bottom:5px}
+.progress-bar{height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width 0.8s ease}
+.fill-teal{background:linear-gradient(90deg,var(--teal),#67e8f9)}
+.fill-purple{background:linear-gradient(90deg,var(--purple),#c4b5fd)}
+.error-log{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.error-log h4{font-size:0.9rem;font-weight:600;margin-bottom:12px}
+.log-entry{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:0.84rem}
+.log-entry:last-child{border-bottom:none}
+.log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.log-topic{flex:1}
+.log-count{color:var(--muted);font-family:'DM Mono',monospace;font-size:0.78rem}
+.session-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.session-stat{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.session-stat-num{font-family:'DM Mono',monospace;font-size:1.4rem;color:var(--gold)}
+.session-stat-label{font-size:0.72rem;color:var(--muted);margin-top:2px}
+.tips-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.tip-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.tip-card h4{font-size:0.88rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.tip-card ul{list-style:none}
+.tip-card li{font-size:0.82rem;color:var(--muted);line-height:1.65;padding:3px 0;padding-left:14px;position:relative}
+.tip-card li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:0.7rem;top:5px}
+.mindset-quotes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.quote-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;border-top:3px solid var(--gold)}
+.quote-text{font-family:'Playfair Display',serif;font-size:0.95rem;line-height:1.6;color:var(--text);margin-bottom:10px;font-style:italic}
+.quote-attr{font-size:0.75rem;color:var(--muted)}
+.checklist{list-style:none}
+.checklist li{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:0.88rem;line-height:1.5}
+.checklist li:last-child{border-bottom:none}
+.check-input{width:18px;height:18px;border-radius:4px;border:2px solid var(--border);background:transparent;flex-shrink:0;cursor:pointer;margin-top:1px;appearance:none;-webkit-appearance:none;transition:all 0.2s;position:relative}
+.check-input:checked{background:var(--green);border-color:var(--green)}
+.check-input:checked::after{content:'✓';position:absolute;top:-1px;left:2px;font-size:0.7rem;color:white;font-weight:700}
+.resource-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.resource-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-decoration:none;color:inherit;transition:all 0.2s;display:block}
+.resource-card:hover{border-color:rgba(240,180,41,0.4);transform:translateY(-2px)}
+.resource-icon{font-size:2rem;margin-bottom:10px}
+.resource-name{font-weight:700;font-size:0.95rem;margin-bottom:4px}
+.resource-desc{font-size:0.8rem;color:var(--muted);line-height:1.5}
+.resource-tag{display:inline-block;margin-top:8px;font-size:0.7rem;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(16,185,129,0.15);color:var(--green)}
+.simulator-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.sim-input-group{margin-bottom:16px}
+.sim-label{font-size:0.82rem;color:var(--muted);margin-bottom:6px;display:block}
+.sim-range{width:100%;appearance:none;height:5px;background:rgba(255,255,255,0.1);border-radius:3px;outline:none}
+.sim-range::-webkit-slider-thumb{appearance:none;width:18px;height:18px;border-radius:50%;background:var(--gold);cursor:pointer}
+.sim-val{font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--gold);float:right;margin-top:-22px}
+.sim-result{background:var(--card2);border:1px solid rgba(240,180,41,0.25);border-radius:12px;padding:20px;text-align:center}
+.sim-score{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:var(--gold);line-height:1}
+.sim-score-label{color:var(--muted);font-size:0.8rem;margin-top:4px}
+.sim-breakdown{display:flex;justify-content:center;gap:24px;margin-top:16px}
+.sim-section{text-align:center}
+.sim-section-num{font-family:'DM Mono',monospace;font-size:1.2rem;font-weight:600}
+.sim-section-label{font-size:0.72rem;color:var(--muted)}
+.score-tier{margin-top:12px;font-size:0.82rem;font-weight:600;padding:6px 14px;border-radius:8px;display:inline-block}
+.content-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.content-tab{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--card2);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.2s}
+.content-tab.active{border-color:var(--teal);color:var(--teal);background:rgba(6,182,212,0.1)}
+.content-panel{display:none}
+.content-panel.active{display:block}
+.topic-row{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:10px;cursor:pointer;transition:all 0.2s}
+.topic-row:hover{border-color:rgba(255,255,255,0.15)}
+.topic-row.open{border-color:rgba(6,182,212,0.3)}
+.topic-row-header{display:flex;justify-content:space-between;align-items:center}
+.topic-row-title{font-weight:600;font-size:0.9rem}
+.topic-row-arrow{color:var(--muted);transition:transform 0.2s}
+.topic-row.open .topic-row-arrow{transform:rotate(90deg)}
+.topic-row-body{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.topic-row.open .topic-row-body{display:block}
+.topic-row-body p{font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:10px}
+.example-box{background:var(--card2);border-radius:8px;padding:14px;font-size:0.83rem;line-height:1.6}
+.ex-label{font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--teal);margin-bottom:6px;letter-spacing:1px}
+.divider{height:1px;background:var(--border);margin:28px 0}
+.info-box{background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25);border-radius:10px;padding:14px 18px;font-size:0.85rem;color:var(--text);line-height:1.6;margin-bottom:16px}
+.info-box strong{color:var(--teal)}
+.warn-box{background:rgba(240,180,41,0.08);border:1px solid rgba(240,180,41,0.25);border-radius:10px;padding:14px 18px;font-size:0.85rem;color:var(--text);line-height:1.6;margin-bottom:16px}
+.warn-box strong{color:var(--gold)}
+.api-key-box{background:var(--card);border:1px solid rgba(240,180,41,0.3);border-radius:var(--radius);padding:20px;margin-bottom:20px}
+.api-key-box h4{color:var(--gold);font-size:0.9rem;margin-bottom:8px}
+.api-key-box p{color:var(--muted);font-size:0.82rem;margin-bottom:12px;line-height:1.6}
+.api-key-input{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'DM Mono',monospace;font-size:0.82rem;margin-bottom:10px}
+.api-key-input:focus{outline:none;border-color:var(--gold)}
+.api-key-status{font-size:0.78rem;margin-top:6px}
+@media(max-width:768px){
+  .nav-tabs{display:none}
+  .score-badge{display:none}
+  .nav-hamburger{display:flex}
+  .module-grid,.progress-grid,.tips-grid,.mindset-quotes,.resource-grid,.simulator-grid{grid-template-columns:1fr}
+  .schedule-grid{grid-template-columns:repeat(4,1fr)}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .session-stats{grid-template-columns:1fr 1fr}
+  .quiz-header{flex-direction:column;align-items:flex-start}
+  .quiz-top-bar{flex-direction:column;align-items:flex-start}
+  .topic-selector{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">Mission <span>1600</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('overview')">Overview</button>
+    <button class="nav-tab" onclick="showPage('content')">Content</button>
+    <button class="nav-tab" onclick="showPage('quiz')">Practice</button>
+    <button class="nav-tab" onclick="showPage('strategy')">Strategy</button>
+    <button class="nav-tab" onclick="showPage('tracker')">Tracker</button>
+    <button class="nav-tab" onclick="showPage('dayof')">Day-Of</button>
+    <button class="nav-tab" onclick="showPage('resources')">Resources</button>
+  </div>
+  <div class="score-badge" id="globalScore">Score: —</div>
+  <button class="nav-hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-nav-tab active" onclick="showPage('overview')"><span class="tab-icon">🏠</span>Overview</button>
+  <button class="mobile-nav-tab" onclick="showPage('content')"><span class="tab-icon">📚</span>Content Guide</button>
+  <button class="mobile-nav-tab" onclick="showPage('quiz')"><span class="tab-icon">✏️</span>Practice Questions</button>
+  <button class="mobile-nav-tab" onclick="showPage('strategy')"><span class="tab-icon">🎯</span>Strategy &amp; Mindset</button>
+  <button class="mobile-nav-tab" onclick="showPage('tracker')"><span class="tab-icon">📈</span>My Progress</button>
+  <button class="mobile-nav-tab" onclick="showPage('dayof')"><span class="tab-icon">📋</span>Day-Of Playbook</button>
+  <button class="mobile-nav-tab" onclick="showPage('resources')"><span class="tab-icon">🔗</span>Free Resources</button>
+  <div class="mobile-score-row"><span>Estimated Score</span><span class="mobile-score-val" id="mobileScore">—</span></div>
+</div>
+
+<div id="page-overview" class="page active"><div class="container">
+  <div class="hero"><div class="hero-eyebrow">Digital SAT 2025–2026</div><h1>Your Path to <em>1600</em></h1><p class="hero-sub">A complete AI-powered study system — unlimited fresh questions modeled on official College Board formats, with strategy, mindset, and day-of prep in one place.</p><button class="btn-primary" onclick="showPage('quiz')">▶ Start Practicing Now</button></div>
+  <div class="stats-row"><div class="stat-card"><div class="stat-num">2h 14m</div><div class="stat-label">Total test time</div></div><div class="stat-card"><div class="stat-num">98</div><div class="stat-label">Total questions</div></div><div class="stat-card"><div class="stat-num">+115</div><div class="stat-label">Avg. gain after 20hrs prep</div></div></div>
+  <h2 class="section-title">The <span>Format</span></h2>
+  <div class="module-grid"><div class="module-box"><h4>📖 Reading &amp; Writing</h4><ul><li>Module 1 <span>27 questions · 32 min</span></li><li>Module 2 (adaptive) <span>27 questions · 32 min</span></li><li>Question types <span>4 categories</span></li><li>Passages <span>Short, 1 per question</span></li><li>Section score <span>200–800</span></li></ul></div><div class="module-box"><h4>🔢 Math</h4><ul><li>Module 1 <span>22 questions · 35 min</span></li><li>Module 2 (adaptive) <span>22 questions · 35 min</span></li><li>Calculator allowed <span>Entire section</span></li><li>Desmos built-in <span>✓ Use it!</span></li><li>Section score <span>200–800</span></li></ul></div></div>
+  <div class="adaptive-diagram"><h4>⚡ How Adaptive Modules Work</h4>
+    <div class="flow-row"><div class="flow-box">Module 1<br><small style="color:var(--muted)">Same for everyone</small></div><div class="flow-arrow">→</div><div class="flow-box flow-good">Strong performance</div><div class="flow-arrow">→</div><div class="flow-box flow-good">Hard Module 2 ✓</div><div class="flow-arrow">→</div><div class="flow-box flow-good">Higher score ceiling</div></div>
+    <div class="flow-row" style="margin-top:8px"><div class="flow-box">Module 1<br><small style="color:var(--muted)">Same for everyone</small></div><div class="flow-arrow">→</div><div class="flow-box" style="border-color:rgba(239,68,68,0.4);color:var(--red)">Weak performance</div><div class="flow-arrow">→</div><div class="flow-box" style="border-color:rgba(239,68,68,0.4);color:var(--red)">Easy Module 2</div><div class="flow-arrow">→</div><div class="flow-box" style="border-color:rgba(239,68,68,0.4);color:var(--red)">Lower score cap</div></div>
+    <p style="font-size:0.82rem;color:var(--muted);margin-top:12px">💡 <strong style="color:var(--gold)">Getting the hard Module 2 is a great sign.</strong> It means you're on track for 700+ in that section.</p>
+  </div>
+  <h2 class="section-title" style="margin-top:32px">The <span>Study Phases</span></h2>
+  <div class="phase-block"><div class="phase-label">Phase 1 · Weeks 1–2</div><div class="phase-title">Diagnose &amp; Map Your Weaknesses</div><div class="phase-body">Take a full-length official practice test in the <strong>Bluebook app</strong>. Review your score report section by section. <strong>Identify your bottom 3 skill areas.</strong> These become your Phase 2 targets.</div></div>
+  <div class="phase-block"><div class="phase-label">Phase 2 · Weeks 3–12</div><div class="phase-title">Targeted Skill Work (30–45 min/day)</div><div class="phase-body">Use the <strong>Practice tab</strong> for AI-generated questions focused on your weak areas. Keep a weekly error log. Spend <strong>70% of time on your weakest subscore.</strong></div></div>
+  <div class="phase-block"><div class="phase-label">Phase 3 · Weeks 13–20</div><div class="phase-title">Full Tests + Score Targeting</div><div class="phase-body">Take a <strong>full practice test every 10–14 days</strong> via Bluebook. After each test, review every wrong answer and adjust your skill focus.</div></div>
+  <h2 class="section-title">Sample <span>Weekly Schedule</span></h2>
+  <div class="schedule-grid"><div class="day-cell"><div class="day-name">Mon</div><div class="day-task">Math: Algebra &amp; Functions</div><div class="day-tag tag-math">30 min</div></div><div class="day-cell"><div class="day-name">Tue</div><div class="day-task">R&amp;W: Craft &amp; Structure</div><div class="day-tag tag-rw">30 min</div></div><div class="day-cell"><div class="day-name">Wed</div><div class="day-task">Math: Data &amp; Statistics</div><div class="day-tag tag-math">30 min</div></div><div class="day-cell"><div class="day-name">Thu</div><div class="day-task">R&amp;W: Grammar Rules</div><div class="day-tag tag-rw">30 min</div></div><div class="day-cell"><div class="day-name">Fri</div><div class="day-task">Error Log Review</div><div class="day-tag tag-review">20 min</div></div><div class="day-cell"><div class="day-name">Sat</div><div class="day-task">Full Practice Test</div><div class="day-tag tag-test">2h 14m</div></div><div class="day-cell"><div class="day-name">Sun</div><div class="day-task">Rest &amp; Reflect</div><div class="day-tag tag-rest">OFF</div></div></div>
+  <div class="warn-box"><strong>⚡ Score Gain Research:</strong> Students who practice <strong>20+ quality hours</strong> on official materials average a <strong>115-point gain</strong>. Quality beats quantity — reviewing why you missed something matters more than grinding volume.</div>
+</div></div>
+
+<div id="page-content" class="page"><div class="container">
+  <h2 class="section-title">Content <span>Study Guide</span></h2>
+  <div class="content-tabs"><button class="content-tab active" onclick="showContent('math',event)">🔢 Math Topics</button><button class="content-tab" onclick="showContent('rw',event)">📖 Reading &amp; Writing</button></div>
+  <div id="content-math" class="content-panel active"><div class="info-box"><strong>Math Strategy:</strong> The Digital SAT allows a calculator the entire Math section. Desmos (a graphing calculator) is built in — use it to graph equations, check algebra, and visualize functions.</div><div id="math-topics"></div></div>
+  <div id="content-rw" class="content-panel"><div class="info-box"><strong>R&amp;W Strategy:</strong> Each passage is short (50–150 words) with one question. Read the question first, then the passage. This keeps you focused on what you're looking for.</div><div id="rw-topics"></div></div>
+</div></div>
+
+<div id="page-quiz" class="page"><div class="container">
+  <div class="quiz-top-bar">
+    <h2 class="section-title" style="margin-bottom:0">Practice <span>Questions</span></h2>
+    <div class="quiz-top-controls">
+      <div class="mode-toggle"><button class="mode-btn active" id="modeAI" onclick="setMode('ai')">🤖 AI</button><button class="mode-btn" id="modeBank" onclick="setMode('bank')">📋 Bank</button></div>
+      <select class="diff-select" id="diffSelect" onchange="loadQuestion()"><option value="mixed">Any Difficulty</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select>
+      <div class="session-pill">Session: <span id="sessionCorrect" style="color:var(--green);font-weight:700">0</span>/<span id="sessionTotal">0</span></div>
+    </div>
+  </div>
+  <div class="topic-selector" id="topicSelector"></div>
+  <div id="questionArea"></div>
+  <div class="quiz-actions">
+    <button class="btn-action primary" id="submitBtn" onclick="submitAnswer()" style="display:none">Check Answer</button>
+    <button class="btn-action" id="nextBtn" onclick="nextQuestion()" style="display:none">Next Question →</button>
+    <button class="btn-action" id="explainBtn" onclick="toggleExplain()" style="display:none">Show Explanation</button>
+  </div>
+  <div class="ai-status-strip" id="apiKeyBox">
+    <span style="color:var(--green)">✓ AI Engine Ready</span>
+    <span id="seenCounter" style="color:var(--muted);font-size:0.75rem"></span>
+  </div>
+</div></div>
+
+<div id="page-strategy" class="page"><div class="container">
+  <h2 class="section-title">Test-Taking <span>Strategy</span></h2>
+  <div class="tips-grid" style="margin-bottom:24px">
+    <div class="tip-card"><h4>⏱ Time Management</h4><ul><li>R&amp;W: ~71 sec per question. Flag hard ones, return if time allows.</li><li>Math: ~95 sec per question. Don't get stuck — flag and move.</li><li>Check time at question 10 and question 20 in each module.</li><li>Never leave a blank — no penalty for guessing.</li></ul></div>
+    <div class="tip-card"><h4>🎯 Module 1 Priority</h4><ul><li>Accuracy in Module 1 determines your Module 2 difficulty tier.</li><li>Aim for 85%+ correct in Module 1 to unlock the hard module.</li><li>Don't rush early questions — these are your most valuable points.</li><li>Hard Module 2 = higher score ceiling. Embrace the difficulty.</li></ul></div>
+    <div class="tip-card"><h4>✂️ Process of Elimination</h4><ul><li>Cross out clearly wrong answers first — usually 1–2 per question.</li><li>On R&amp;W: eliminate answers that add info not in the passage.</li><li>On Math: plug in numbers to test answer choices when stuck.</li><li>When down to 2, read both very carefully — one will be subtly wrong.</li></ul></div>
+    <div class="tip-card"><h4>🔢 Desmos Strategy</h4><ul><li>Graph systems of equations — intersection = solution.</li><li>Use it to check algebra answers, not replace thinking.</li><li>Visualize parabolas, find vertex or roots instantly.</li><li>Practice with Desmos before test day — it's the same tool.</li></ul></div>
+    <div class="tip-card"><h4>⚠️ Common Careless Mistakes</h4><ul><li>Misreading "NOT" or "BEST" — underline key words.</li><li>Sign errors in algebra — check negative distribution.</li><li>Units — does your answer make sense in context?</li><li>Answering what you thought was asked, not what was asked.</li></ul></div>
+    <div class="tip-card"><h4>📖 R&amp;W Passage Approach</h4><ul><li>Read the question stem first — know what you're hunting for.</li><li>For vocab-in-context: try each answer in the blank, choose best fit.</li><li>For grammar: read aloud mentally — your ear catches errors.</li><li>For transitions: identify the relationship between ideas first.</li></ul></div>
+  </div>
+  <div class="divider"></div>
+  <h2 class="section-title">Mindset &amp; <span>Psychology</span></h2>
+  <div class="mindset-quotes"><div class="quote-card"><div class="quote-text">"A wrong answer is data, not failure. Every mistake tells you exactly what to study next."</div><div class="quote-attr">— The top scorer's mindset</div></div><div class="quote-card"><div class="quote-text">"The SAT is not an IQ test. It tests learned skills — and skills can be taught, practiced, and improved."</div><div class="quote-attr">— College Board's own framing</div></div></div>
+  <div class="card" style="margin-bottom:16px"><div class="card-header"><div class="card-icon" style="background:rgba(139,92,246,0.15)">🧠</div><div><div class="card-title">Managing Test Anxiety</div></div></div><ul class="tip-card" style="background:transparent;border:none;padding:0"><li>Before the test: box breathing (4 in, hold 4, out 4, hold 4) — resets your nervous system.</li><li>During hard questions: remind yourself that hard = harder module = good sign.</li><li>If you spiral: refocus on the current question only. Forget the last one.</li><li>Anxiety is energy — channel it into focus, not panic.</li><li>Confidence comes from preparation. Every practice session builds it.</li></ul></div>
+  <div class="card"><div class="card-header"><div class="card-icon" style="background:rgba(16,185,129,0.15)">📈</div><div><div class="card-title">Building Study Momentum</div></div></div><ul class="tip-card" style="background:transparent;border:none;padding:0"><li>30 consistent minutes beats a 3-hour cram session. Every time.</li><li>Track your error patterns weekly — you'll see real progress.</li><li>Celebrate small wins: mastering one topic is a genuine improvement.</li><li>Take one full day off each week. Recovery is part of performance.</li><li>Retakes are normal. Most students improve 50–150 points between attempts.</li></ul></div>
+</div></div>
+
+<div id="page-tracker" class="page"><div class="container">
+  <h2 class="section-title">My <span>Progress</span></h2>
+  <div class="session-stats"><div class="session-stat"><div class="session-stat-num" id="trkTotal">0</div><div class="session-stat-label">Questions Answered</div></div><div class="session-stat"><div class="session-stat-num" id="trkCorrect">0</div><div class="session-stat-label">Correct</div></div><div class="session-stat"><div class="session-stat-num" id="trkStreak">0</div><div class="session-stat-label">Current Streak</div></div><div class="session-stat"><div class="session-stat-num" id="trkSessions">0</div><div class="session-stat-label">Study Sessions</div></div></div>
+  <div class="progress-grid">
+    <div class="progress-card"><h4>📖 Reading &amp; Writing</h4>
+      <div class="progress-bar-wrap"><div class="progress-label"><span>Craft &amp; Structure</span><span id="cs-pct">—</span></div><div class="progress-bar"><div class="progress-fill fill-teal" id="cs-bar" style="width:0%"></div></div></div>
+      <div class="progress-bar-wrap"><div class="progress-label"><span>Information &amp; Ideas</span><span id="ii-pct">—</span></div><div class="progress-bar"><div class="progress-fill fill-teal" id="ii-bar" style="width:0%"></div></div></div>
+      <div class="progress-bar-wrap"><div class="progress-label"><span>Expression of Ideas</span><span id="ei-pct">—</span></div><div class="progress-bar"><div class="progress-fill fill-teal" id="ei-bar" style="width:0%"></div></div></div>
+      <div class="progress-bar-wrap"><div class="progress-label"><span>Standard English</span><span id="se-pct">—</span></div><div class="progress-bar"><div class="progress-fill fill-teal" id="se-bar" style="width:0%"></div></div></div>
+    </div>
+    <div class="progress-card"><h4>🔢 Math</h4>
+      <div class="progress-bar-wrap"><div class="progress-label"><span>Algebra &amp; Linear</span><span id="al-pct">—</span></div><div class="progress-bar"><div class="progress-fill fill-purple" id="al-bar" style="width:0%"></div></div></div>
+      <div class="progress-bar-wrap"><div class="progress-label"><span>Advanced Math</span><span id="am-pct">—</span></div><div class="progress-bar"><div class="progress-fill fill-purple" id="am-bar" style="width:0%"></div></div></div>
+      <div class="progress-bar-wrap"><div class="progress-label"><span>Data &amp; Statistics</span><span id="ds-pct">—</span></div><div class="progress-bar"><div class="progress-fill fill-purple" id="ds-bar" style="width:0%"></div></div></div>
+      <div class="progress-bar-wrap"><div class="progress-label"><span>Geometry &amp; Trig</span><span id="gt-pct">—</span></div><div class="progress-bar"><div class="progress-fill fill-purple" id="gt-bar" style="width:0%"></div></div></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:20px"><div class="card-header"><div class="card-icon" style="background:rgba(240,180,41,0.15)">🎯</div><div><div class="card-title">Score Simulator</div><div class="card-sub">Estimate your score based on practice accuracy</div></div></div>
+    <div class="simulator-grid"><div>
+      <div class="sim-input-group"><label class="sim-label">Reading &amp; Writing accuracy</label><input type="range" class="sim-range" id="rwAccuracy" min="40" max="100" value="70" oninput="updateSimulator()"><div class="sim-val" id="rwAccVal">70%</div></div>
+      <div class="sim-input-group" style="margin-top:20px"><label class="sim-label">Math accuracy</label><input type="range" class="sim-range" id="mathAccuracy" min="40" max="100" value="70" oninput="updateSimulator()"><div class="sim-val" id="mathAccVal">70%</div></div>
+    </div>
+    <div class="sim-result"><div class="sim-score" id="simTotal">1080</div><div class="sim-score-label">Estimated Total Score</div><div class="sim-breakdown"><div class="sim-section"><div class="sim-section-num" id="simRW">540</div><div class="sim-section-label">R&amp;W</div></div><div class="sim-section"><div class="sim-section-num" id="simMath">540</div><div class="sim-section-label">Math</div></div></div><div class="score-tier" id="scoreTier"></div></div>
+    </div>
+  </div>
+  <div class="error-log"><h4>📋 Error Log — Topics to Focus On</h4><p style="font-size:0.8rem;color:var(--muted);margin-bottom:12px">Sorted by most missed — use this to guide your daily study focus.</p><div id="errorLogList"><div style="color:var(--muted);font-size:0.85rem;padding:16px 0;text-align:center">Complete practice questions to populate your error log.</div></div></div>
+  <div style="margin-top:16px;text-align:right"><button class="btn-action" onclick="clearProgress()" style="font-size:0.78rem;color:var(--muted)">🗑 Reset All Progress</button></div>
+</div></div>
+
+<div id="page-dayof" class="page"><div class="container">
+  <h2 class="section-title">Day-Of <span>Playbook</span></h2>
+  <div class="card" style="margin-bottom:16px"><div class="card-header"><div class="card-icon" style="background:rgba(139,92,246,0.15)">🌙</div><div><div class="card-title">The Night Before</div></div></div><ul class="checklist"><li><input type="checkbox" class="check-input"> Pack your bag: admission ticket, photo ID, approved calculator, pencils/pens, snacks, water</li><li><input type="checkbox" class="check-input"> Confirm test center location and travel time</li><li><input type="checkbox" class="check-input"> No new studying tonight — your brain needs consolidation, not cramming</li><li><input type="checkbox" class="check-input"> Light review only: glance at your error log and key formulas (10 min max)</li><li><input type="checkbox" class="check-input"> Be in bed by 10pm — 8 hours of sleep is more valuable than any last-minute review</li><li><input type="checkbox" class="check-input"> Lay out your clothes so there are zero decisions to make in the morning</li></ul></div>
+  <div class="card" style="margin-bottom:16px"><div class="card-header"><div class="card-icon" style="background:rgba(240,180,41,0.15)">☀️</div><div><div class="card-title">Morning Of</div></div></div><ul class="checklist"><li><input type="checkbox" class="check-input"> Eat a real breakfast: protein + complex carbs (eggs + oatmeal, not sugary cereal)</li><li><input type="checkbox" class="check-input"> Do a 5–10 min light warmup: 5 easy math questions or 5 grammar questions</li><li><input type="checkbox" class="check-input"> Hydrate — bring water to the test center</li><li><input type="checkbox" class="check-input"> Leave 30 minutes early — arriving stressed costs you points</li><li><input type="checkbox" class="check-input"> Box breathing on the way: 4-count in, 4-count hold, 4-count out</li></ul></div>
+  <div class="card" style="margin-bottom:16px"><div class="card-header"><div class="card-icon" style="background:rgba(6,182,212,0.15)">✏️</div><div><div class="card-title">During the Test</div></div></div><ul class="checklist"><li><input type="checkbox" class="check-input"> Read every question carefully — underline key words like "NOT," "BEST," "EXCEPT"</li><li><input type="checkbox" class="check-input"> Flag hard questions and move on — never spend more than 2 min stuck</li><li><input type="checkbox" class="check-input"> Never leave a blank — there is NO penalty for guessing</li><li><input type="checkbox" class="check-input"> Time check at Q10 and Q20 in each module</li><li><input type="checkbox" class="check-input"> After each module: close your eyes, take 3 deep breaths, reset mentally</li><li><input type="checkbox" class="check-input"> If Module 2 feels harder — celebrate! You earned the hard module.</li></ul></div>
+  <div class="card"><div class="card-header"><div class="card-icon" style="background:rgba(16,185,129,0.15)">✅</div><div><div class="card-title">After the Test</div></div></div><ul class="checklist"><li><input type="checkbox" class="check-input"> Don't stress about questions you think you missed — you can't change them now</li><li><input type="checkbox" class="check-input"> Write down what surprised you while memory is fresh — gold for retake prep</li><li><input type="checkbox" class="check-input"> Scores arrive in ~2 weeks — check total AND section breakdowns</li><li><input type="checkbox" class="check-input"> Retaking? Most students gain 50–150 points. You know exactly what to improve.</li><li><input type="checkbox" class="check-input"> Celebrate the effort — regardless of score, you put in real work.</li></ul></div>
+</div></div>
+
+<div id="page-resources" class="page"><div class="container">
+  <h2 class="section-title">Free <span>Resources</span></h2>
+  <div class="info-box" style="margin-bottom:24px"><strong>100% Free:</strong> Every resource listed here is completely free. Students who maximize these tools routinely score 1400+.</div>
+  <div class="resource-grid">
+    <a href="https://www.khanacademy.org/sat" target="_blank" class="resource-card"><div class="resource-icon">🎓</div><div class="resource-name">Khan Academy Official SAT Prep</div><div class="resource-desc">The single best free resource. Created in partnership with College Board. Personalized study plans, official questions, video lessons, and full practice test analysis.</div><span class="resource-tag">✓ Official · Free · Adaptive</span></a>
+    <a href="https://bluebook.collegeboard.org" target="_blank" class="resource-card"><div class="resource-icon">📱</div><div class="resource-name">Bluebook App (College Board)</div><div class="resource-desc">The official test-taking app with 8 free full-length practice tests in the exact digital format you'll see on test day.</div><span class="resource-tag">✓ Official · 8 Full Tests · Free</span></a>
+    <a href="https://www.reddit.com/r/SAT/" target="_blank" class="resource-card"><div class="resource-icon">💬</div><div class="resource-name">r/SAT Community</div><div class="resource-desc">Active community of students and tutors sharing strategies, score reports, study plans, and real test experiences.</div><span class="resource-tag">✓ Community · Real Experience</span></a>
+    <a href="https://www.youtube.com/results?search_query=digital+SAT+prep+2025" target="_blank" class="resource-card"><div class="resource-icon">▶️</div><div class="resource-name">YouTube SAT Channels</div><div class="resource-desc">Search "Digital SAT Math" or "SAT Reading strategies 2025." PrepScholar, Uworld, and Gohar Khan cover specific topics with worked examples.</div><span class="resource-tag">✓ Visual · Topic-Specific · Free</span></a>
+    <a href="https://satsuite.collegeboard.org/sat/practice-preparation" target="_blank" class="resource-card"><div class="resource-icon">📋</div><div class="resource-name">College Board Practice Hub</div><div class="resource-desc">Official practice question banks, sample questions by skill type, and the full test specifications — straight from the source.</div><span class="resource-tag">✓ Official · Test Specs · Free</span></a>
+    <a href="https://www.desmos.com/scientific" target="_blank" class="resource-card"><div class="resource-icon">📐</div><div class="resource-name">Desmos Graphing Calculator</div><div class="resource-desc">The exact calculator built into the Digital SAT Math section. Practice using it now so it's second nature on test day.</div><span class="resource-tag">✓ Built into SAT · Free · Practice Now</span></a>
+  </div>
+</div></div>
+<script>
+// ═══════════ CONTENT DATA ═══════════
+const mathTopics=[
+  {title:"Linear Equations & Slope",body:"Linear equations: y = mx + b, where m is slope and b is y-intercept. Slope = (y₂-y₁)/(x₂-x₁). Parallel lines share slopes; perpendicular lines have negative-reciprocal slopes.",example:{label:"WORKED EXAMPLE",text:"Line through (2,5) with slope 3:\ny - 5 = 3(x - 2) → y = 3x - 1"}},
+  {title:"Systems of Equations",body:"Two equations, two unknowns. Use substitution, elimination, or Desmos. Graph both lines — the intersection is the solution.",example:{label:"WORKED EXAMPLE",text:"2x + y = 10 and x - y = 2\nAdd: 3x = 12 → x = 4, y = 2"}},
+  {title:"Percentages & Ratios",body:"Percent change = (new-old)/old × 100. Part/Whole = %/100. 'What percent of X is Y?' → (Y/X)×100.",example:{label:"WORKED EXAMPLE",text:"$40 shirt at 15% off:\n$40 × 0.85 = $34"}},
+  {title:"Functions & Notation",body:"f(x) = output when input is x. f(3) means substitute x=3. Composite f(g(x)): apply g first, then f. Domain = valid inputs; range = possible outputs.",example:{label:"WORKED EXAMPLE",text:"f(x) = 2x² - 3. Find f(-2):\n2(4) - 3 = 5"}},
+  {title:"Quadratics & Parabolas",body:"ax² + bx + c = 0. Factor, use quadratic formula, or complete the square. Vertex form a(x-h)²+k gives vertex (h,k).",example:{label:"WORKED EXAMPLE",text:"x² - 5x + 6 = 0\n(x-2)(x-3) = 0 → x = 2 or x = 3"}},
+  {title:"Geometry: Angles & Triangles",body:"Triangle angles sum to 180°. 30-60-90: sides 1,√3,2. 45-45-90: sides 1,1,√2. Pythagorean theorem: a²+b²=c².",example:{label:"WORKED EXAMPLE",text:"Legs 6 and 8:\n6²+8² = 100 → hyp = 10"}},
+  {title:"Circles: Area, Arc, Sector",body:"Area=πr². Circumference=2πr. Arc=(θ/360)×2πr. Sector area=(θ/360)×πr². Circle equation: (x-h)²+(y-k)²=r².",example:{label:"WORKED EXAMPLE",text:"Radius 6, 90° arc:\n(90/360)×12π = 3π"}},
+  {title:"Data Analysis & Statistics",body:"Mean=sum÷count. Median=middle. Mode=most frequent. Correlation ≠ causation. Scatter plots: positive/negative/no correlation.",example:{label:"WORKED EXAMPLE",text:"4,7,7,9,13: Mean=8, Median=7, Mode=7, Range=9"}},
+  {title:"Exponents & Radicals",body:"x^a×x^b=x^(a+b). (x^a)^b=x^(ab). x^0=1. x^(-n)=1/xⁿ. x^(1/2)=√x. x^(m/n)=ⁿ√(xᵐ).",example:{label:"WORKED EXAMPLE",text:"8^(2/3): cube root of 8 = 2. Then 2² = 4."}},
+  {title:"Probability & Counting",body:"P(event)=favorable/total. P(A and B)=P(A)×P(B) if independent. Two-way tables are a key SAT tool.",example:{label:"WORKED EXAMPLE",text:"4 red, 6 blue: P(red) = 4/10 = 40%"}},
+  {title:"Word Problems & Modeling",body:"Translate English to algebra. 'at least,' 'no more than' signal inequalities. Always check: does the answer make sense?",example:{label:"WORKED EXAMPLE",text:"$20/month + $0.10/text = $26:\n0.10t = 6 → t = 60 texts"}},
+  {title:"Trigonometry Basics",body:"SOH-CAH-TOA: sin=opp/hyp, cos=adj/hyp, tan=opp/adj. Complementary: sin(θ)=cos(90°-θ). Digital SAT tests right-triangle trig only.",example:{label:"WORKED EXAMPLE",text:"Opp=5, hyp=13: sin(θ) = 5/13"}},
+];
+const rwTopics=[
+  {title:"Craft & Structure — Vocabulary in Context",body:"The Digital SAT tests context-based meaning, not memorized vocabulary. Cover the word, read the sentence, predict your own word, find the closest answer.",example:{label:"APPROACH",text:"'The scientist's meticulous records proved invaluable.'\nContext: invaluable records → careful and detailed. Answer: precise/careful."}},
+  {title:"Craft & Structure — Text Structure & Purpose",body:"'The main purpose of this text is…' Ask: Is the passage describing, arguing, comparing, or narrating? The correct answer matches the whole text, not one detail.",example:{label:"APPROACH",text:"A passage with data and a claim → 'to present evidence.' Not 'to entertain.'"}},
+  {title:"Information & Ideas — Main Idea",body:"The answer must be true of the WHOLE passage. Eliminate answers that are too narrow (one detail), too broad (beyond scope), or contradicted by the text.",example:{label:"APPROACH",text:"Wrong: covers only one sentence.\nWrong: adds outside information.\nRight: captures the central claim."}},
+  {title:"Information & Ideas — Evidence & Claims",body:"Questions give a claim and ask which quote best supports it. The answer must be directly stated or clearly implied — don't infer too far.",example:{label:"APPROACH",text:"'Which finding supports the claim that exercise improves memory?'\nOnly choose an answer directly linking exercise to memory."}},
+  {title:"Expression of Ideas — Transitions",body:"Identify the relationship: agreement (furthermore, additionally), contrast (however, although), cause-effect (therefore, as a result). Match relationship, not 'feeling.'",example:{label:"APPROACH",text:"'It rained.' → 'The game was cancelled.'\nCause→effect. Best: 'As a result,' or 'Therefore,'"}},
+  {title:"Standard English — Punctuation Rules",body:"(1) Semicolons join two complete sentences. (2) Comma + FANBOYS joins two complete sentences. (3) Dashes add emphasis. its = possessive; it's = it is.",example:{label:"KEY RULES",text:"✓ She studied hard; she earned an A.\n✓ She studied hard, and she earned an A.\n✗ She studied hard, she earned an A. (comma splice)"}},
+  {title:"Standard English — Subject-Verb Agreement",body:"Verb must match the subject, not the nearest noun. Cross out prepositional phrases to find the true subject. Each/every/either/neither = singular.",example:{label:"WORKED EXAMPLE",text:"'The collection of books ARE valuable.' ✗\n'The collection of books IS valuable.' ✓ (subject = collection)"}},
+];
+
+// ═══════════ FEW-SHOT ANCHOR LIBRARY ═══════════
+// Verified SAT-style anchors modeled on College Board public sample question formats.
+// Used to guide AI generation — each anchor is a quality template, not a test question.
+const anchors={
+  "Linear Equations":[
+    {p:null,q:"If 4x - 3 = 17, what is the value of x?",c:["3","4","5","6"],a:2,e:"4x=20, x=5. Verify: 4(5)-3=17 ✓"},
+    {p:null,q:"A line passes through (0,4) and (3,10). What is the slope?",c:["2","3","4","6"],a:0,e:"Slope=(10-4)/(3-0)=6/3=2"},
+    {p:null,q:"If 2(x+5) = 3x - 1, what is x?",c:["9","11","12","13"],a:1,e:"2x+10=3x-1 → x=11"},
+  ],
+  "Systems":[
+    {p:null,q:"If x+y=9 and x-y=3, what is x?",c:["3","4","6","8"],a:2,e:"Add: 2x=12 → x=6, y=3"},
+    {p:null,q:"Which (x,y) satisfies 2x+y=8 and y=x-1?",c:["(2,4)","(3,2)","(4,0)","(1,6)"],a:1,e:"Sub y=x-1: 3x=9→x=3,y=2"},
+  ],
+  "Percentages":[
+    {p:null,q:"A car costs $24,000. After a 12% discount, what is the sale price?",c:["$19,200","$20,880","$21,120","$22,000"],a:2,e:"24000×0.88=$21,120"},
+    {p:null,q:"Revenue increased from $50,000 to $60,000. What is the percent increase?",c:["10%","15%","20%","25%"],a:2,e:"(10000/50000)×100=20%"},
+  ],
+  "Functions":[
+    {p:null,q:"If g(x)=3x²-2x+1, what is g(2)?",c:["7","9","11","13"],a:1,e:"3(4)-2(2)+1=12-4+1=9"},
+    {p:null,q:"f(x)=2x+5. What is f(f(1))?",c:["12","17","19","21"],a:2,e:"f(1)=7. f(7)=19"},
+  ],
+  "Quadratics":[
+    {p:null,q:"What are the solutions to x²-7x+12=0?",c:["x=2 and x=6","x=3 and x=4","x=1 and x=12","x=−3 and x=−4"],a:1,e:"(x-3)(x-4)=0 → x=3 or x=4"},
+    {p:null,q:"Which is equivalent to (x-3)²+4?",c:["x²-6x+13","x²-6x+7","x²+6x+13","x²-3x+13"],a:0,e:"x²-6x+9+4=x²-6x+13"},
+  ],
+  "Geometry":[
+    {p:null,q:"A right triangle has legs 5 and 12. What is the hypotenuse?",c:["11","13","15","17"],a:1,e:"5-12-13 Pythagorean triple"},
+    {p:null,q:"Triangle ABC: angle A=50°, angle B=70°. What is angle C?",c:["50°","55°","60°","70°"],a:2,e:"180-50-70=60°"},
+  ],
+  "Statistics":[
+    {p:null,q:"Mean of five numbers is 14. Four are 10,12,16,18. What is the fifth?",c:["12","14","16","18"],a:1,e:"Total=70. Known=56. Fifth=14"},
+    {p:null,q:"Data: 3,7,7,9,14. Which measure equals the mode?",c:["Mean","Median","Range","None"],a:1,e:"Mode=7. Median=7. Equal."},
+  ],
+  "Exponents":[
+    {p:null,q:"Which is equivalent to 27^(2/3)?",c:["3","6","9","18"],a:2,e:"27^(1/3)=3. 3²=9"},
+    {p:null,q:"If x³·x⁴=xⁿ, what is n?",c:["5","6","7","12"],a:2,e:"Add exponents: 3+4=7"},
+  ],
+  "Trigonometry":[
+    {p:null,q:"Right triangle: opposite angle θ = 8, hypotenuse = 17. What is sin(θ)?",c:["8/17","15/17","17/8","8/15"],a:0,e:"sin=opp/hyp=8/17"},
+    {p:null,q:"In a right triangle, cos(θ)=5/13. What is sin(θ)?",c:["5/12","12/13","5/13","13/12"],a:1,e:"Adjacent=5, hyp=13. Opp=√(169-25)=12. sin=12/13"},
+  ],
+  "Vocabulary":[
+    {p:"The scientist's groundbreaking research challenged long-held assumptions about cellular respiration, overturning decades of established scientific consensus.",q:"As used in the text, 'overturning' most nearly means",c:["destroying","reversing","improving","questioning"],a:1,e:"Overturning consensus means reversing what was believed. 'Reversing' fits best."},
+    {p:"Though often described as reclusive, the novelist was in fact highly engaged with her community, regularly hosting literary salons.",q:"As used in the text, 'reclusive' most nearly means",c:["creative","withdrawn","celebrated","intellectual"],a:1,e:"'Reclusive' = withdrawn. The passage contrasts this label with her actual engagement."},
+  ],
+  "Main Idea":[
+    {p:"Unlike traditional brick-and-mortar retailers, online marketplaces eliminate the need for physical storefronts, reducing overhead significantly. These savings can then be passed on to consumers through lower prices.",q:"The main purpose of this passage is to",c:["Argue traditional retail will disappear","Explain why online retailers can offer lower prices","Critique e-commerce business models","Compare shopping experiences"],a:1,e:"The passage explains the mechanism: no storefronts → lower overhead → lower prices."},
+  ],
+  "Evidence":[
+    {p:"Researchers studying sleep in adolescents found that students sleeping fewer than seven hours scored significantly lower on standardized tests than peers sleeping eight or more hours. Researchers controlled for study time, socioeconomic status, and prior performance.",q:"Which conclusion is best supported by the study?",c:["Sleep is the most important factor in academics","Students who study more sleep less","Insufficient sleep is associated with lower test scores in adolescents","Standardized tests don't measure ability accurately"],a:2,e:"The study directly shows under-7-hour sleep correlates with lower scores. C states this accurately."},
+  ],
+  "Transitions":[
+    {p:"Early telephone networks relied entirely on human operators to connect calls. By the 1960s, automated switching systems had largely replaced these operators.",q:"Which transition best connects these two sentences?",c:["Similarly,","For example,","However,","Therefore,"],a:2,e:"The second sentence describes change from the first. 'However' signals contrast/change."},
+  ],
+  "Grammar":[
+    {p:"The team of engineers _______ working on the bridge design for over a year before the project was approved.",q:"Which option correctly completes the sentence?",c:["has been","have been","were","are"],a:0,e:"'Team' is singular. Timeline before approval → present perfect 'has been.'"},
+    {p:"Each of the participants in the study _______ required to sign a consent form before proceeding.",q:"Which option correctly completes the sentence?",c:["were","are","was","have been"],a:2,e:"'Each' is always singular → 'was.'"},
+  ],
+};
+
+// ═══════════ OFFLINE BANK (30 questions) ═══════════
+const questionBank=[
+  {id:1,type:'math',topic:'Linear Equations',difficulty:'easy',skill:'al',passage:null,text:'If 3x + 7 = 22, what is the value of x?',choices:['3','4','5','6'],correct:2,explanation:'3x=15 → x=5. Verify: 3(5)+7=22 ✓'},
+  {id:2,type:'math',topic:'Functions',difficulty:'medium',skill:'am',passage:null,text:'If f(x) = x² − 4x + 3, what is f(5)?',choices:['6','8','10','12'],correct:1,explanation:'25-20+3=8'},
+  {id:3,type:'math',topic:'Percentages',difficulty:'easy',skill:'al',passage:null,text:'A jacket originally costs $80 and is on sale for 25% off. What is the sale price?',choices:['$55','$60','$65','$70'],correct:1,explanation:'$80×0.75=$60'},
+  {id:4,type:'math',topic:'Systems',difficulty:'medium',skill:'al',passage:null,text:'If x + y = 10 and x − y = 4, what is x?',choices:['3','5','7','8'],correct:2,explanation:'Add: 2x=14 → x=7'},
+  {id:5,type:'math',topic:'Geometry',difficulty:'medium',skill:'gt',passage:null,text:'A right triangle has legs of 9 and 12. What is the hypotenuse?',choices:['13','14','15','16'],correct:2,explanation:'9²+12²=225. √225=15'},
+  {id:6,type:'math',topic:'Quadratics',difficulty:'hard',skill:'am',passage:null,text:'What are the solutions to x² − 7x + 12 = 0?',choices:['x=2,x=6','x=3,x=4','x=1,x=12','x=−3,x=−4'],correct:1,explanation:'(x-3)(x-4)=0'},
+  {id:7,type:'math',topic:'Statistics',difficulty:'medium',skill:'ds',passage:null,text:'The mean of 5 numbers is 12. Four are 8, 10, 14, and 16. What is the fifth?',choices:['10','11','12','14'],correct:2,explanation:'Sum=60. Known=48. Fifth=12'},
+  {id:8,type:'math',topic:'Exponents',difficulty:'hard',skill:'am',passage:null,text:'Which of the following is equivalent to 16^(3/4)?',choices:['4','8','12','6'],correct:1,explanation:'16^(1/4)=2. 2³=8'},
+  {id:9,type:'math',topic:'Linear Equations',difficulty:'easy',skill:'al',passage:null,text:'A car travels at 60 mph for 2.5 hours. How many miles does it travel?',choices:['120','140','150','160'],correct:2,explanation:'60×2.5=150'},
+  {id:10,type:'math',topic:'Geometry',difficulty:'easy',skill:'gt',passage:null,text:'What is the area of a circle with radius 7? (π≈3.14)',choices:['43.96','49','153.86','154'],correct:2,explanation:'π×49≈153.86'},
+  {id:11,type:'math',topic:'Statistics',difficulty:'easy',skill:'ds',passage:null,text:'A bag has 5 red, 3 blue, and 2 green marbles. What is the probability of drawing a blue?',choices:['1/5','3/10','2/5','1/2'],correct:1,explanation:'P=3/10'},
+  {id:12,type:'math',topic:'Percentages',difficulty:'medium',skill:'al',passage:null,text:"Revenue increased from $50,000 to $60,000. What is the percent increase?",choices:['10%','15%','20%','25%'],correct:2,explanation:'(10000/50000)×100=20%'},
+  {id:13,type:'math',topic:'Functions',difficulty:'hard',skill:'am',passage:null,text:'If f(x) = 2x + 1 and g(x) = x², what is g(f(3))?',choices:['25','36','49','64'],correct:2,explanation:'f(3)=7. g(7)=49'},
+  {id:14,type:'math',topic:'Quadratics',difficulty:'medium',skill:'am',passage:null,text:'What is the vertex of y = (x - 3)² + 5?',choices:['(3,5)','(−3,5)','(3,−5)','(5,3)'],correct:0,explanation:'Vertex form: (h,k)=(3,5)'},
+  {id:15,type:'math',topic:'Trigonometry',difficulty:'hard',skill:'gt',passage:null,text:'Right triangle: leg opposite θ=7, hypotenuse=25. What is cos(θ)?',choices:['7/25','24/25','25/24','7/24'],correct:1,explanation:'Adjacent=√(625-49)=24. cos=24/25'},
+  {id:16,type:'rw',topic:'Vocabulary',difficulty:'easy',skill:'cs',passage:"The ornithologist's painstaking observations of migratory birds produced results that would prove foundational to the field of avian biology.",text:"As used in the text, 'painstaking' most nearly means",choices:['exhausting','precise and thorough','experimental','uncomfortable'],correct:1,explanation:"'Foundational results' suggests careful, detailed work — 'precise and thorough.'"},
+  {id:17,type:'rw',topic:'Transitions',difficulty:'medium',skill:'ei',passage:'Early studies suggested that coffee increased heart disease risk. More recent large-scale research has found no such connection.',text:'Which transition word best begins the second sentence?',choices:['Therefore,','Similarly,','However,','Additionally,'],correct:2,explanation:"Second sentence contradicts first — 'However' signals contrast."},
+  {id:18,type:'rw',topic:'Main Idea',difficulty:'medium',skill:'ii',passage:'Unlike synthetic fertilizers, which deliver nutrients quickly but can leach into waterways, compost improves soil structure over time, fostering beneficial microbial communities.',text:'The main purpose of this passage is to',choices:['Argue synthetic fertilizers should be banned','Compare long-term benefits of compost to synthetic fertilizers','Explain how plants absorb nutrients','Describe the environmental impact of agriculture'],correct:1,explanation:'Passage explicitly compares compost vs. synthetic fertilizer.'},
+  {id:19,type:'rw',topic:'Grammar',difficulty:'easy',skill:'se',passage:'The committee, which met twice a month, _______ its final report in December.',text:'Which option correctly completes the sentence?',choices:['submit','submits','submitted','submitting'],correct:2,explanation:"Past tense context ('met') → 'submitted'"},
+  {id:20,type:'rw',topic:'Evidence',difficulty:'hard',skill:'ii',passage:'Research shows that students who handwrite notes retain information significantly better than those who type notes, even when typists record more words verbatim.',text:'Which conclusion is BEST supported by the passage?',choices:['Typing is faster than handwriting','Typists are better multitaskers','Summarizing via handwriting aids memory more than verbatim transcription','Computers should be banned from classrooms'],correct:2,explanation:"'Even when typists record more words verbatim' — quantity isn't the factor. The summarizing process is."},
+  {id:21,type:'math',topic:'Statistics',difficulty:'hard',skill:'ds',passage:null,text:'In a data set, the median is 15 and the mean is 18. Which best describes the distribution?',choices:['Symmetric','Skewed right','Skewed left','Normal'],correct:1,explanation:'Mean > median → skewed right (pulled by high values)'},
+  {id:22,type:'rw',topic:'Vocabulary',difficulty:'medium',skill:'cs',passage:'Despite its austere exterior, the museum housed one of the most vibrant collections of contemporary art in the country.',text:"As used in the text, 'austere' most nearly means",choices:['grand','plain and severe','ancient','colorful'],correct:1,explanation:"'Austere' contrasts with 'vibrant' — plain, severe, without decoration."},
+  {id:23,type:'rw',topic:'Grammar',difficulty:'medium',skill:'se',passage:'Neither the manager nor the employees _______ aware of the policy change before it was announced.',text:'Which option correctly completes the sentence?',choices:['was','were','is','are'],correct:1,explanation:"With 'neither...nor,' verb agrees with the closer subject ('employees'=plural) → 'were'"},
+  {id:24,type:'math',topic:'Linear Equations',difficulty:'medium',skill:'al',passage:null,text:'The equation 3y - 6x = 12 in slope-intercept form is',choices:['y=2x+4','y=2x-4','y=-2x+4','y=6x+4'],correct:0,explanation:'Divide by 3: y-2x=4 → y=2x+4'},
+  {id:25,type:'math',topic:'Exponents',difficulty:'medium',skill:'am',passage:null,text:'If (2³)ˣ = 2¹², what is x?',choices:['2','3','4','6'],correct:2,explanation:'3x=12 → x=4'},
+  {id:26,type:'rw',topic:'Main Idea',difficulty:'hard',skill:'ii',passage:'The assumption that economic growth inevitably leads to environmental degradation has been challenged by researchers who point to several high-income nations that have simultaneously increased GDP and reduced carbon emissions over the past decade.',text:'The main claim of this passage is that',choices:['Economic growth always harms the environment','Some wealthy nations have improved environmentally while growing economically','Carbon emissions are decreasing globally','Researchers disagree about climate change causes'],correct:1,explanation:'Passage states some nations have done both — B restates this accurately.'},
+  {id:27,type:'rw',topic:'Transitions',difficulty:'hard',skill:'ei',passage:'The new medication showed remarkable efficacy in clinical trials, reducing symptoms in 87% of patients. The FDA has not yet approved it for widespread use.',text:'Which transition most logically begins the second sentence?',choices:['As a result,','Furthermore,','Nevertheless,','In other words,'],correct:2,explanation:"Despite positive trials, FDA hasn't approved it — contradiction. 'Nevertheless' = despite that."},
+  {id:28,type:'math',topic:'Trigonometry',difficulty:'medium',skill:'gt',passage:null,text:'In a right triangle, sin(θ) = 3/5. What is cos(θ)?',choices:['3/4','4/5','4/3','5/3'],correct:1,explanation:'Adjacent=√(25-9)=4. cos=4/5'},
+  {id:29,type:'math',topic:'Geometry',difficulty:'hard',skill:'gt',passage:null,text:'A sector of a circle with radius 10 has a central angle of 72°. What is the area of the sector?',choices:['10π','20π','25π','40π'],correct:1,explanation:'(72/360)×π×100=(1/5)×100π=20π'},
+  {id:30,type:'rw',topic:'Evidence',difficulty:'medium',skill:'ii',passage:'A 10-year longitudinal study found that adults who exercised at least 150 minutes per week were significantly less likely to develop type 2 diabetes, even after controlling for diet and body weight.',text:'Which conclusion is best supported by the passage?',choices:['Exercise alone prevents all chronic disease','Diet is more important than exercise for health','Regular exercise is associated with reduced diabetes risk independent of diet and weight','Adults should exercise exactly 150 minutes per week'],correct:2,explanation:"The study controlled for diet and weight, so exercise independently linked to reduced diabetes risk. C states this precisely."},
+];
+
+// ═══════════ STATE & STORAGE ═══════════
+const STORAGE_KEY='mission1600_v3';
+function loadState(){
+  try{const r=localStorage.getItem(STORAGE_KEY);if(r)return JSON.parse(r);}catch(e){}
+  return{acc:{cs:{c:0,t:0},ii:{c:0,t:0},ei:{c:0,t:0},se:{c:0,t:0},al:{c:0,t:0},am:{c:0,t:0},ds:{c:0,t:0},gt:{c:0,t:0}},errors:{},seen:[],total:0,correct:0,streak:0,best:0,sessions:0};
+}
+function saveState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){}}
+let state=loadState();
+let currentQ=null,selectedChoice=null,answered=false,sessionCorrect=0,sessionTotal=0,currentTopic='all',currentMode='ai';
+
+// ═══════════ NAVIGATION ═══════════
+function toggleMenu(){document.getElementById('hamburgerBtn').classList.toggle('open');document.getElementById('mobileMenu').classList.toggle('open');}
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab,.mobile-nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab,.mobile-nav-tab').forEach(t=>{if(t.getAttribute('onclick')&&t.getAttribute('onclick').includes("'"+id+"'"))t.classList.add('active');});
+  document.getElementById('hamburgerBtn').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='quiz'&&!currentQ){checkApiKeyDisplay();loadQuestion();}
+  if(id==='tracker')updateTracker();
+}
+function showContent(tab,e){
+  document.querySelectorAll('.content-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('content-'+tab).classList.add('active');
+  if(e&&e.target)e.target.classList.add('active');
+}
+
+// ═══════════ API KEY ═══════════
+function checkApiKeyDisplay(){/* key managed by Worker — no setup needed */}
+
+// ═══════════ TOPIC META ═══════════
+const topicMeta={'Linear Equations':{type:'math',skill:'al'},'Systems':{type:'math',skill:'al'},'Percentages':{type:'math',skill:'al'},'Functions':{type:'math',skill:'am'},'Quadratics':{type:'math',skill:'am'},'Exponents':{type:'math',skill:'am'},'Geometry':{type:'math',skill:'gt'},'Trigonometry':{type:'math',skill:'gt'},'Statistics':{type:'math',skill:'ds'},'Vocabulary':{type:'rw',skill:'cs'},'Main Idea':{type:'rw',skill:'ii'},'Evidence':{type:'rw',skill:'ii'},'Transitions':{type:'rw',skill:'ei'},'Grammar':{type:'rw',skill:'se'}};
+const allTopics=Object.keys(topicMeta);
+
+// ═══════════ TOPIC SELECTOR ═══════════
+function buildTopicSelector(){
+  const el=document.getElementById('topicSelector');el.innerHTML='';
+  ['all',...allTopics].forEach(t=>{
+    const btn=document.createElement('button');btn.className='topic-btn'+(t==='all'?' active':'');
+    btn.textContent=t==='all'?'✦ All Topics':t;
+    btn.onclick=()=>{document.querySelectorAll('.topic-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentTopic=t;currentQ=null;loadQuestion();};
+    el.appendChild(btn);
+  });
+}
+function setMode(m){currentMode=m;document.getElementById('modeAI').classList.toggle('active',m==='ai');document.getElementById('modeBank').classList.toggle('active',m==='bank');currentQ=null;loadQuestion();}
+
+// ═══════════ AI GENERATION ═══════════
+function buildExamples(topic){
+  const anc=anchors[topic]||[];if(!anc.length)return '';
+  const letters=['A','B','C','D'];
+  return anc.slice(0,3).map((a,i)=>`EXAMPLE ${i+1}:\n${a.p?'Passage: "'+a.p+'"\n':''}Question: ${a.q}\nChoices:\n${a.c.map((c,j)=>` ${letters[j]}) ${c}`).join('\n')}\nCorrect: ${letters[a.a]}\nExplanation: ${a.e}`).join('\n\n');
+}
+
+async function generateAIQuestion(topic,difficulty){
+  const meta=topicMeta[topic]||{type:'math',skill:'al'};
+  const isRW=meta.type==='rw';
+  const diff=difficulty==='mixed'?(Math.random()<0.33?'easy':Math.random()<0.5?'medium':'hard'):difficulty;
+  const examples=buildExamples(topic);
+  const rwGuide=isRW?`For Reading & Writing (topic: ${topic}):
+- Write an ORIGINAL short passage (2-4 sentences, 40-80 words) on an academic topic (science, history, social science, or humanities).
+- For Vocabulary: ask "As used in the text, '[word]' most nearly means"
+- For Grammar: embed _______ in the passage; ask "Which option correctly completes the sentence?"
+- For Transitions: two sentences, ask which connector best links them.
+- For Main Idea/Evidence: passage must clearly support one conclusion.`:`For Math (topic: ${topic}):
+- All arithmetic must be CORRECT — double-check every calculation.
+- ${diff==='easy'?'Single-step, direct application of the concept.':diff==='medium'?'Two or three steps, moderate complexity.':'Multi-step, requires insight or a non-obvious approach.'}
+- Use realistic, clean numbers.`;
+  const prompt=`You are an expert Digital SAT question writer. Write ONE original question on: ${topic} (difficulty: ${diff}).
+
+${rwGuide}
+
+${examples?`Model your question on these verified SAT-style examples:\n\n${examples}\n\nYour question must be DIFFERENT from all examples above.`:'Write a high-quality SAT-style question.'}
+
+Rules:
+- Exactly 4 answer choices (A-D)
+- Exactly one correct answer
+- Clear, educational explanation
+- Original — not copied from any source
+
+Respond ONLY with this JSON (no other text, no markdown):
+{"passage":null,"stem":"question text","choices":["A","B","C","D"],"correct":0,"explanation":"why correct and why others wrong","difficulty":"${diff}"}`;
+
+  const resp=await fetch('https://mission1600.ew-wilson74.workers.dev/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system:'You are an expert SAT question writer. Respond ONLY with valid JSON. No preamble, no markdown fences.',messages:[{role:'user',content:prompt}]})});
+  const data=await resp.json();
+  if(!resp.ok||!data.content){
+    const reason=data.error?.message||data.error?.type||JSON.stringify(data);
+    throw new Error('Anthropic: '+reason);
+  }
+  const raw=data.content.map(b=>b.text||'').join('').trim().replace(/```json|```/g,'').trim();
+  const parsed=JSON.parse(raw);
+  return{id:'ai_'+Date.now(),type:meta.type,topic,difficulty:parsed.difficulty||diff,skill:meta.skill,passage:parsed.passage||null,text:parsed.stem,choices:parsed.choices,correct:parseInt(parsed.correct),explanation:parsed.explanation,isAI:true};
+}
+
+// ═══════════ QUIZ ENGINE ═══════════
+async function loadQuestion(){
+  selectedChoice=null;answered=false;
+  ['submitBtn','nextBtn','explainBtn'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  const useAI=currentMode==='ai';
+  if(useAI){
+    showLoading();
+    try{
+      const topic=currentTopic==='all'?allTopics[Math.floor(Math.random()*allTopics.length)]:currentTopic;
+      const diff=document.getElementById('diffSelect').value;
+      currentQ=await generateAIQuestion(topic,diff);
+      markQuestionReady(currentQ);
+    }catch(err){showError(err.message);}
+  }else{
+    let pool=currentTopic==='all'?[...questionBank]:questionBank.filter(q=>q.topic===currentTopic);
+    const diff=document.getElementById('diffSelect').value;
+    if(diff!=='mixed')pool=pool.filter(q=>q.difficulty===diff);
+    if(!pool.length)pool=currentTopic==='all'?[...questionBank]:questionBank.filter(q=>q.topic===currentTopic);
+    const unseen=pool.filter(q=>!state.seen.includes(q.id));
+    const src=unseen.length?unseen:pool;
+    const q=src[Math.floor(Math.random()*src.length)];
+    if(!state.seen.includes(q.id))state.seen.push(q.id);
+    currentQ=q;renderQ(q);
+    const sc=document.getElementById('seenCounter');
+    if(sc)sc.textContent=state.seen.length>=questionBank.length?'✓ All bank questions seen — rotating':`${state.seen.length}/${questionBank.length} bank questions seen`;
+  }
+  saveState();
+}
+
+// ═══════════ TIP LIBRARY (100 tips) ═══════════
+const tips=[
+  // MATH — Algebra & Linear (cat:math)
+  {cat:'math',h:'Slope is just rise over run',b:'Memorize it as (y₂-y₁)÷(x₂-x₁). On the Digital SAT, if two points are given, this is almost always the first step. Parallel lines have <strong>equal slopes</strong>. Perpendicular lines have slopes that are <strong>negative reciprocals</strong> (flip and negate).'},
+  {cat:'math',h:'Slope-intercept form: know it cold',b:'y = mx + b. m is slope, b is where the line crosses the y-axis. If an equation looks messy, rearrange it into this form first — everything becomes easier to read.'},
+  {cat:'math',h:'Eliminate a variable by adding equations',b:'In systems of equations, look for a way to add (or subtract) the two equations so one variable cancels. If you see 3x and -3x, just add the equations. This is faster than substitution for most SAT problems.'},
+  {cat:'math',h:'Substitution: isolate the simple variable first',b:'When one equation is already solved for x or y (like y = 2x + 1), plug it straight into the other equation. Don\'t rearrange more than you have to.'},
+  {cat:'math',h:'Percent change formula — one formula, many questions',b:'Percent change = (New − Old) ÷ Old × 100. Always divide by the <strong>original</strong> value, not the new one. A common SAT trap is using the wrong denominator.'},
+  {cat:'math',h:'Working backwards from answer choices',b:'On linear equation questions, plug the answer choices back into the equation. Start with B or C — if it\'s too big, try A; if too small, try D. Often faster than solving algebraically.'},
+  {cat:'math',h:'Translate word problems one sentence at a time',b:'Don\'t try to read the whole word problem at once. Translate each sentence into math as you go. "Is" means equals. "More than" means add. "Of" usually means multiply.'},
+  // MATH — Advanced Math (cat:math)
+  {cat:'math',h:'f(3) just means plug in 3 for x',b:'Function notation looks scary but it\'s just substitution. f(3) = f(x) with x replaced by 3. For composite functions like f(g(2)), work inside-out: find g(2) first, then plug that answer into f.'},
+  {cat:'math',h:'Vertex form tells you the vertex directly',b:'y = a(x − h)² + k has vertex at (h, k). Notice the sign flip: (x − 3)² has vertex at x = +3, not −3. The SAT tests this sign trap regularly.'},
+  {cat:'math',h:'Two solutions to a quadratic = two x-intercepts',b:'The solutions (roots) of a quadratic are where the parabola crosses the x-axis. If the discriminant (b²−4ac) is zero, there\'s one solution (tangent to x-axis). Negative discriminant = no real solutions.'},
+  {cat:'math',h:'Factoring shortcut: find two numbers that multiply to c and add to b',b:'For x² + bx + c = 0, find two numbers that multiply to c and add to b. Example: x² + 5x + 6 → find numbers that multiply to 6 and add to 5 → (2 and 3) → (x+2)(x+3) = 0.'},
+  {cat:'math',h:'Exponent rule: same base, add the powers',b:'x³ · x⁴ = x⁷. When dividing: x⁷ ÷ x³ = x⁴. When raising a power to a power: (x³)⁴ = x¹². Never add or multiply the bases — only the exponents change.'},
+  {cat:'math',h:'Fractional exponents are just roots',b:'x^(1/2) = √x. x^(1/3) = ∛x. x^(2/3) = (∛x)². To evaluate 8^(2/3): take the cube root first (= 2), then square it (= 4). Always take the root before the power — easier numbers.'},
+  {cat:'math',h:'Negative exponents flip to the denominator',b:'x^(-2) = 1/x². The base doesn\'t become negative — just the position changes. So 2^(-3) = 1/8, not −8. This is one of the most common exponent mistakes on the SAT.'},
+  // MATH — Geometry & Trig (cat:math)
+  {cat:'math',h:'Memorize the two special right triangles',b:'30-60-90: sides are x, x√3, 2x. 45-45-90: sides are x, x, x√2. These appear constantly. If you see a triangle with a 30°, 45°, or 60° angle, one of these applies.'},
+  {cat:'math',h:'SOH-CAH-TOA: say it until it\'s automatic',b:'Sin = Opposite/Hypotenuse. Cos = Adjacent/Hypotenuse. Tan = Opposite/Adjacent. The SAT only tests right-triangle trig — always identify which side is opposite and adjacent to your angle first.'},
+  {cat:'math',h:'Arc length and sector area use the same fraction',b:'The fraction is (central angle ÷ 360). Arc length = (θ/360) × 2πr. Sector area = (θ/360) × πr². One formula, two applications. Just swap in the right full-circle formula.'},
+  {cat:'math',h:'Triangle angles always sum to 180°',b:'This is more useful than it sounds. If two angles are given, subtract from 180 to find the third. Exterior angle of a triangle = sum of the two non-adjacent interior angles. The SAT uses this regularly.'},
+  {cat:'math',h:'Circle equation: (x−h)²+(y−k)²=r²',b:'Center is (h, k) — watch the sign. (x−3)²+(y+2)²=25 has center (3, −2) and radius 5. If it\'s not in this form, complete the square to get it there.'},
+  {cat:'math',h:'Complementary trig: sin(θ) = cos(90°−θ)',b:'This means sin(30°) = cos(60°) and vice versa. The SAT sometimes gives you one and asks for the other. If you know the complement, you know both.'},
+  // MATH — Data & Statistics (cat:math)
+  {cat:'math',h:'Mean, median, mode — know when each is misleading',b:'The mean is pulled by extreme values (outliers). The median is not. When a data set has outliers, the median is usually a better representation of "typical." The SAT will ask you to identify which is better and why.'},
+  {cat:'math',h:'Skewed right means mean > median',b:'When a distribution is skewed right (a few very high values), the mean gets pulled up above the median. Skewed left = mean < median. Symmetric = mean ≈ median.'},
+  {cat:'math',h:'Correlation does NOT mean causation',b:'The SAT loves this. A study can show that two things are correlated (move together) without one causing the other. The correct answer will say "associated with" not "caused by."'},
+  {cat:'math',h:'Read two-way tables carefully before answering',b:'Two-way tables have row totals, column totals, and a grand total. Most SAT questions ask for a fraction — make sure your denominator is the right group (row total, column total, or grand total).'},
+  {cat:'math',h:'Probability = favorable ÷ total',b:'Always count the total outcomes in the denominator carefully. "Given that..." questions restrict the sample space — only count within the given condition, not the whole table.'},
+  // MATH — General (cat:math)
+  {cat:'math',h:'Plug in 2 when testing algebraic answer choices',b:'Avoid 0 and 1 when plugging in test values — they create false positives. Use 2 or 3. Plug into both the question and the answer choice you\'re testing, and see if they match.'},
+  {cat:'math',h:'Units matter — always check them',b:'If a question gives distance in feet but asks for inches, or gives rate in hours but asks about minutes — unit mismatch is the trap. Convert before calculating, not after.'},
+  {cat:'math',h:'When stuck, draw it',b:'For any geometry or word problem, sketch what\'s happening. A quick diagram makes relationships obvious that the words obscure. You have scratch paper — use it.'},
+  // R&W — Vocabulary (cat:rw)
+  {cat:'rw',h:'Cover the word, predict your own, then match',b:'For vocab-in-context questions: cover the tested word, read the sentence, think of your own word that fits, then find the answer choice closest to yours. This stops you from being seduced by words that sound right but aren\'t.'},
+  {cat:'rw',h:'Vocab answers must fit the exact context',b:'All four choices may be real synonyms of the tested word — but only one fits this specific sentence. "Cheap" and "inexpensive" are synonyms, but a "cheap shot" can\'t become an "inexpensive shot." Context is everything.'},
+  {cat:'rw',h:'Look for contrast and support clues nearby',b:'Words like "but," "however," "despite," and "although" signal that the blank contrasts with what came before. Words like "and," "also," and "similarly" signal the blank continues the same idea.'},
+  {cat:'rw',h:'Eliminate extreme answers first',b:'On vocab questions, answers like "devastating," "despised," or "revolutionary" are often too strong for the neutral academic tone of SAT passages. Start by crossing out the most extreme options.'},
+  {cat:'rw',h:'The answer is always in the passage',b:'For every vocab and comprehension question, the correct answer is supported by specific words in the text. If you\'re drawing on outside knowledge or inferring heavily, you\'ve gone too far.'},
+  // R&W — Main Idea & Evidence (cat:rw)
+  {cat:'rw',h:'Main idea must cover the WHOLE passage',b:'The correct main idea applies to every paragraph, not just one. If an answer is technically true but only describes part of the passage, it\'s wrong. Eliminate answers that are too narrow or too broad.'},
+  {cat:'rw',h:'Read the question before the passage',b:'Every R&W question comes with a short passage. Read the question first so you know exactly what you\'re looking for. This saves you from re-reading the passage looking for something you could have spotted the first time.'},
+  {cat:'rw',h:'Evidence answers must be directly stated',b:'For "which finding best supports the claim" questions, the correct answer says what the passage actually says — not what you can infer, assume, or conclude from it. If you\'re stretching, it\'s wrong.'},
+  {cat:'rw',h:'Eliminate answers that bring in outside information',b:'If an answer choice introduces a fact or idea not mentioned anywhere in the passage, eliminate it immediately. The SAT only rewards what\'s in the text.'},
+  {cat:'rw',h:'"Best" means most directly supported',b:'When a question asks for the "best" evidence or "best" conclusion, it means the one most directly and explicitly supported by the passage. Don\'t overthink it — the best answer usually requires the least inferencing.'},
+  {cat:'rw',h:'Purpose questions: ask what the author is doing',b:'For "the main purpose of this passage" questions, ask: Is the author describing something? Arguing a point? Comparing two things? Telling a story? The correct answer uses the right verb to match.'},
+  // R&W — Transitions (cat:rw)
+  {cat:'rw',h:'Identify the relationship before picking the transition',b:'Before looking at the answer choices for transition questions, decide: do these two ideas agree, contrast, or does the second follow from the first? Then pick the transition that matches that relationship.'},
+  {cat:'rw',h:'Contrast transitions: however, nevertheless, despite, although',b:'These all signal that the second idea goes against the first. "The weather was terrible. Nevertheless, the game went on." If the ideas contradict each other, one of these is almost always right.'},
+  {cat:'rw',h:'Cause-effect transitions: therefore, thus, as a result, consequently',b:'Use these when the second sentence is a logical result of the first. "It rained heavily. As a result, the game was cancelled." Don\'t use these just because the ideas are related — the second must follow from the first.'},
+  {cat:'rw',h:'Addition transitions: furthermore, additionally, moreover',b:'These add more evidence or support to the same point. "The medication reduced pain. Furthermore, it improved sleep." Use when both sentences support the same conclusion.'},
+  {cat:'rw',h:'"For example" and "for instance" introduce illustrations',b:'These transitions signal that the second sentence is a specific example of the general idea in the first. If the second sentence is a general claim rather than a specific example, these are wrong.'},
+  {cat:'rw',h:'Don\'t pick a transition based on feel — use logic',b:'Students often pick transitions that "sound good" or feel right emotionally. The SAT rewards logical relationships, not tone. Always identify the relationship first, then match the transition.'},
+  // R&W — Grammar (cat:rw)
+  {cat:'rw',h:'Subject-verb agreement: find the real subject first',b:'Cross out everything between the subject and verb — prepositional phrases, relative clauses, parenthetical info. "The collection of rare books [is/are] valuable." Cross out "of rare books" → "The collection IS valuable."'},
+  {cat:'rw',h:'Each, every, either, neither = always singular',b:'"Each of the students IS responsible." "Neither answer IS correct." These words look like they refer to multiple things, but grammatically they\'re always singular. This is tested constantly.'},
+  {cat:'rw',h:'Neither...nor and either...or: verb agrees with the closer subject',b:'"Neither the coach nor the players WERE ready." The verb agrees with "players" (the closer subject). If it were "Neither the players nor the coach," it would be "WAS ready."'},
+  {cat:'rw',h:'Semicolons join two complete sentences — nothing else',b:'A semicolon must have a complete sentence on both sides. "She studied; she passed." Both sides are complete. Never use a semicolon before a list or after an incomplete thought.'},
+  {cat:'rw',h:'Comma splice: two complete sentences need more than a comma',b:'"She studied, she passed" is wrong — two complete sentences can\'t be joined by a comma alone. Fix it with a semicolon, a period, or add a conjunction (and, but, so, for, or, nor, yet).'},
+  {cat:'rw',h:'Its vs. it\'s — the apostrophe means "it is"',b:'"It\'s raining" = "It is raining." "The cat licked its paw" = possession. If you can replace it with "it is" and it still makes sense, use it\'s. Otherwise, use its.'},
+  {cat:'rw',h:'Who vs. whom: replace with he/him to test',b:'If "he" fits, use "who." If "him" fits, use "whom." "Who called?" → "He called" ✓. "Whom did you call?" → "You called him" ✓. This trick works every time.'},
+  {cat:'rw',h:'Modifiers must be next to what they modify',b:'"Running down the street, the keys were lost" is wrong — keys don\'t run. The modifier "Running down the street" must be right next to the person doing the running. Misplaced modifiers are a common SAT trap.'},
+  {cat:'rw',h:'Apostrophes never make nouns plural',b:'"Three apple\'s" is always wrong. Apostrophes show possession or make contractions — never plurals. "The Smiths" (plural, no apostrophe). "The Smith\'s house" (one Smith, possessive).'},
+  {cat:'rw',h:'Parallel structure: match the form of listed items',b:'In a list, all items must have the same grammatical form. "She likes running, swimming, and to bike" is wrong. It should be "running, swimming, and biking." When you see a list, check that all items match.'},
+  // STRATEGY — Test-Taking (cat:strategy)
+  {cat:'strategy',h:'Module 1 accuracy determines your score ceiling',b:'How well you do in Module 1 determines whether you get the hard or easy Module 2. The hard Module 2 has a higher score ceiling. Slow down slightly on Module 1 — these are your most valuable questions.'},
+  {cat:'strategy',h:'Hard Module 2 is a good sign — don\'t panic',b:'If the questions in Module 2 feel harder than Module 1, that\'s excellent news. It means you performed well enough to unlock the harder module, which gives you access to the higher score range.'},
+  {cat:'strategy',h:'Never leave a blank — there\'s no penalty for guessing',b:'The Digital SAT has no penalty for wrong answers. A blank is guaranteed zero. A guess has a 25% chance of being right. Always fill in something, even if you flag it and come back.'},
+  {cat:'strategy',h:'Flag and move — don\'t get stuck',b:'If a question is taking more than 90 seconds, flag it and move on. Come back at the end. Spending 3 minutes on one hard question costs you time on two easier ones you would have gotten right.'},
+  {cat:'strategy',h:'R&W pace: about 71 seconds per question',b:'Each R&W module has 27 questions and 32 minutes. That\'s about 71 seconds per question. Check the clock after question 10 (you should have ~20 minutes left) and after question 20 (~9 minutes left).'},
+  {cat:'strategy',h:'Math pace: about 95 seconds per question',b:'Each Math module has 22 questions and 35 minutes. That\'s about 95 seconds per question. Check the clock after question 10 (you should have ~22 minutes left).'},
+  {cat:'strategy',h:'Process of elimination is a skill — practice it',b:'On hard questions, start by crossing out the one or two answers that are clearly wrong. Even getting from 4 choices to 2 doubles your odds if you have to guess. Never just skip to guessing from 4.'},
+  {cat:'strategy',h:'On R&W, the right answer adds nothing new',b:'The correct answer to comprehension questions is always supported by the passage — it doesn\'t introduce outside facts, doesn\'t go further than the text, and doesn\'t assume things the author didn\'t say.'},
+  {cat:'strategy',h:'Underline key words in every question',b:'Especially "NOT," "EXCEPT," "BEST," "LEAST," and "MOST." Missing these words is one of the most common sources of careless errors. Make it a habit to underline them physically (or mentally on digital).'},
+  {cat:'strategy',h:'When down to two answers, find what\'s wrong with one',b:'Don\'t ask "which is better?" — ask "what\'s wrong with this one?" One of the two will have a subtle flaw: too extreme, adds info not in passage, grammatically wrong, or slightly off. Find the flaw.'},
+  {cat:'strategy',h:'Check your work by re-reading the question, not your answer',b:'After solving, re-read the original question — not your work. Make sure you answered what was actually asked. Many errors come from solving correctly but answering the wrong thing.'},
+  {cat:'strategy',h:'Harder questions aren\'t worth more points',b:'Every question on the SAT is worth exactly one point. Don\'t spend extra time on hard questions hoping to earn extra credit. A hard question you spend 3 minutes on is worth the same as an easy one you solve in 30 seconds.'},
+  {cat:'strategy',h:'The answer choices are part of the problem',b:'On math questions, the answer choices give you information. If all choices are fractions, your answer should be a fraction. If choices are far apart, you can estimate. Read the choices before you solve.'},
+  {cat:'strategy',h:'Gut check: does the answer make sense?',b:'After solving a math problem, ask: is this answer reasonable? If a question asks for a probability and you got 7/2, something went wrong. If it asks for a person\'s age and you got 240, check your work.'},
+  {cat:'strategy',h:'Review flagged questions in order',b:'When you return to flagged questions, work through them in order rather than jumping around. This keeps your brain focused and prevents accidentally skipping one.'},
+  // DESMOS (cat:desmos)
+  {cat:'desmos',h:'Graph both equations to find where they intersect',b:'For systems of equations, type both into Desmos. The intersection point IS the solution. Click the intersection — Desmos shows the exact coordinates. This is faster than algebra for messy systems.'},
+  {cat:'desmos',h:'Use Desmos to check your algebra',b:'After solving algebraically, graph both sides of the equation in Desmos. If they intersect at your answer, you\'re right. If not, you made an error somewhere. Use it as a check, not a replacement for thinking.'},
+  {cat:'desmos',h:'Find the vertex of a parabola instantly',b:'Type the quadratic into Desmos. Click the vertex point — it shows exact coordinates. Much faster than completing the square or using −b/2a, especially on hard problems with ugly numbers.'},
+  {cat:'desmos',h:'Desmos shows x-intercepts (roots) directly',b:'Type a quadratic like y = x²−5x+6. Click the x-intercepts — they\'re the solutions to the equation. This finds roots in seconds, even when factoring is difficult.'},
+  {cat:'desmos',h:'Use sliders to understand function transformations',b:'Type y = a(x−h)²+k and add sliders for a, h, k. Watch how the parabola moves. This builds intuition for transformations that shows up in test questions.'},
+  {cat:'desmos',h:'Desmos handles fractions and radicals cleanly',b:'Type fractions as (3/4) and radicals as sqrt(). Desmos renders them correctly and calculates them precisely. Don\'t try to convert to decimals in your head — let Desmos do it.'},
+  {cat:'desmos',h:'Graph inequalities to find solution regions',b:'Type y > 2x+1 in Desmos. It shades the solution region. For systems of inequalities, type both — the overlap (darker region) is the solution set.'},
+  {cat:'desmos',h:'Use Desmos as a scientific calculator too',b:'You don\'t have to use it only for graphing. Type complex calculations directly — it handles order of operations, exponents, roots, trig functions, and logarithms. Faster and more accurate than mental math.'},
+  {cat:'desmos',h:'Practice with Desmos before test day',b:'The built-in SAT calculator IS Desmos. Go to desmos.com/scientific right now and get comfortable with it. On test day, you want it to feel like a tool you\'ve used a hundred times — because you have.'},
+  {cat:'desmos',h:'Zoom in on graphs for precision',b:'If you need the exact value of an intersection or vertex, zoom in on the graph. Desmos shows coordinates with more decimal places as you zoom. For integer answers, this confirms your result instantly.'},
+  // MINDSET (cat:mindset)
+  {cat:'mindset',h:'A wrong answer is data, not failure',b:'Every question you get wrong tells you exactly what to study next. The worst outcome isn\'t getting something wrong — it\'s getting it wrong and not understanding why. Always read the explanation.'},
+  {cat:'mindset',h:'30 consistent minutes beats a 3-hour cram',b:'The brain builds skills through repeated practice over time, not through marathon sessions. Thirty focused minutes every day will improve your score faster than occasional long sessions.'},
+  {cat:'mindset',h:'Anxiety is just energy — redirect it',b:'Pre-test nerves are your brain preparing to perform. The physical feeling of anxiety and excitement are nearly identical. When you feel nervous, tell yourself "I\'m ready and focused" — your brain responds to the reframe.'},
+  {cat:'mindset',h:'Box breathing resets your nervous system in 60 seconds',b:'Breathe in for 4 counts, hold for 4, out for 4, hold for 4. Repeat 3 times. This activates your parasympathetic nervous system and physically reduces anxiety. Use it before the test and between modules.'},
+  {cat:'mindset',h:'The SAT tests learned skills — not intelligence',b:'Every skill tested on the SAT can be learned and practiced. It is not an IQ test. Students who prep consistently improve dramatically. You are getting better every time you practice.'},
+  {cat:'mindset',h:'Hard questions during practice are the point',b:'If every practice question feels easy, you\'re not building skill. The goal of practice is to find your edge — the questions that challenge you — and push through them. Struggle is where learning happens.'},
+  {cat:'mindset',h:'Track your errors by topic, not by score',b:'Your error log is more valuable than your score. A 60% score on Statistics means something specific to work on. A 90% score on Grammar means you can move on. Use data, not feelings, to guide your study.'},
+  {cat:'mindset',h:'Retakes are normal and expected',b:'Most students who score 1400+ took the SAT more than once. The first test is a data collection exercise. You\'ll know your exact weak spots, and the second attempt will be dramatically more focused.'},
+  {cat:'mindset',h:'Sleep the night before is more valuable than studying',b:'Memory consolidation happens during sleep. The night before the test, your brain needs rest more than it needs more information. An 8-hour sleep is worth more than 3 hours of last-minute review.'},
+  {cat:'mindset',h:'Focus on one question at a time',b:'If you miss a question, forget it immediately and move to the next one. You can\'t change past answers during a module, and lingering on them costs focus on questions you can still get right.'},
+  // SCORE & STRUCTURE (cat:strategy)
+  {cat:'strategy',h:'200 is the minimum score per section — not zero',b:'Each section (R&W and Math) is scored 200–800. The total ranges from 400–1600. You start with 200 points before answering a single question. Keep that in perspective.'},
+  {cat:'strategy',h:'The Digital SAT has 4 modules total',b:'Two R&W modules (32 min each, 27 questions each) and two Math modules (35 min each, 22 questions each). There\'s a 10-minute break between R&W and Math. Total time: about 2 hours 14 minutes.'},
+  {cat:'strategy',h:'Every question in a module is worth one point',b:'There\'s no partial credit, no bonus for hard questions, and no penalty for wrong answers. This means your strategy should be: answer all easy and medium questions first, then return to hard ones.'},
+  {cat:'strategy',h:'Your score report is a study guide',b:'After each practice test, your score report shows accuracy by skill area. Your weakest skill area deserves 70% of your next study session. Use the data — don\'t just look at the total score.'},
+  {cat:'strategy',h:'Khan Academy\'s personalized plan is genuinely good',b:'Khan Academy official SAT prep is built with College Board. After you link your PSAT or SAT scores, it generates a personalized practice plan targeting your exact weak spots. Use it alongside this app.'},
+];
+
+// ═══════════ TIP STATE ═══════════
+let tipQueue=[];let pendingQuestion=null;let questionReady=false;
+
+function getWeightedTip(){
+  const isMath=currentTopic!=='all'&&['Linear Equations','Systems','Percentages','Functions','Quadratics','Exponents','Geometry','Trigonometry','Statistics'].includes(currentTopic);
+  const isRW=currentTopic!=='all'&&['Vocabulary','Main Idea','Evidence','Transitions','Grammar'].includes(currentTopic);
+  let pool;
+  if(isMath){
+    const mathTips=tips.filter(t=>t.cat==='math'||t.cat==='desmos');
+    const otherTips=tips.filter(t=>t.cat!=='math'&&t.cat!=='desmos');
+    pool=Math.random()<0.7?mathTips:otherTips;
+  } else if(isRW){
+    const rwTips=tips.filter(t=>t.cat==='rw');
+    const otherTips=tips.filter(t=>t.cat!=='rw');
+    pool=Math.random()<0.7?rwTips:otherTips;
+  } else {
+    pool=tips;
+  }
+  // avoid recent repeats
+  const available=pool.filter(t=>!tipQueue.includes(t));
+  const src=available.length?available:pool;
+  const tip=src[Math.floor(Math.random()*src.length)];
+  tipQueue.push(tip);if(tipQueue.length>8)tipQueue.shift();
+  return tip;
+}
+
+const catLabels={math:'📐 Math Tip',rw:'📖 R&W Tip',strategy:'🎯 Strategy',mindset:'💪 Mindset',desmos:'📊 Desmos Tip'};
+const catClass={math:'tip-cat-math',rw:'tip-cat-rw',strategy:'tip-cat-strategy',mindset:'tip-cat-mindset',desmos:'tip-cat-desmos'};
+const loadingLines=['Loading your next question...','The AI is writing something for you...','Generating a fresh question — read this while you wait.','One moment — your next challenge is being crafted.','Quick tip while the AI works...'];
+
+function showLoading(){
+  questionReady=false;pendingQuestion=null;
+  const tip=getWeightedTip();
+  const line=loadingLines[Math.floor(Math.random()*loadingLines.length)];
+  document.getElementById('questionArea').innerHTML=`
+    <div class="tip-card-loading" id="tipCard" style="--tip-duration:10s">
+      <div class="tip-eyebrow">${line}</div>
+      <div class="tip-category ${catClass[tip.cat]}">${catLabels[tip.cat]}</div>
+      <div class="tip-headline">${tip.h}</div>
+      <div class="tip-body">${tip.b}</div>
+      <div class="tip-waiting" id="tipWaiting"><div class="tip-dot"></div> Generating question...</div>
+      <button class="tip-ready-btn" id="tipReadyBtn" onclick="showPendingQuestion()">✓ Question Ready — Let's Go →</button>
+    </div>`;
+  const sc=document.getElementById('seenCounter');if(sc)sc.textContent='🤖 Generating fresh AI question...';
+}
+
+function showPendingQuestion(){
+  if(pendingQuestion){renderQ(pendingQuestion);pendingQuestion=null;}
+}
+
+function markQuestionReady(q){
+  pendingQuestion=q;questionReady=true;
+  const waiting=document.getElementById('tipWaiting');
+  const btn=document.getElementById('tipReadyBtn');
+  if(waiting)waiting.style.display='none';
+  if(btn)btn.style.display='block';
+  const sc=document.getElementById('seenCounter');if(sc)sc.textContent='✓ Question ready when you are';
+}
+
+function showError(msg){
+  document.getElementById('questionArea').innerHTML=`<div class="question-card"><p style="color:var(--red);margin-bottom:8px">⚠ AI generation failed — switching to question bank.</p><p style="color:var(--muted);font-size:0.82rem">Error: ${msg}</p><p style="color:var(--muted);font-size:0.82rem;margin-top:8px">Check your API key or internet connection.</p></div>`;
+  setTimeout(()=>{setMode('bank');},2000);
+}
+
+function renderQ(q){
+  document.getElementById('questionArea').innerHTML=`
+    <div class="question-card">
+      <div class="q-meta">
+        <span class="q-badge ${q.type}">${q.type==='math'?'🔢 Math':'📖 R&W'}</span>
+        <span class="q-badge ${q.difficulty}">${q.topic}</span>
+        <span class="q-badge ${q.difficulty}">${q.difficulty}</span>
+        ${q.isAI?'<span class="q-badge ai">🤖 AI Generated</span>':''}
+      </div>
+      ${q.passage?`<div class="q-passage">${q.passage}</div>`:''}
+      <div class="q-text">${q.text}</div>
+      <div class="choices">${q.choices.map((c,i)=>`<button class="choice-btn" onclick="selectChoice(${i})" id="choice-${i}"><span class="choice-letter">${['A','B','C','D'][i]}</span><span>${c}</span></button>`).join('')}</div>
+      <div class="explain-box" id="explainBox"><strong>✓ Explanation:</strong> ${q.explanation}</div>
+    </div>`;
+}
+
+function selectChoice(i){if(answered)return;selectedChoice=i;document.querySelectorAll('.choice-btn').forEach((b,idx)=>b.classList.toggle('selected',idx===i));document.getElementById('submitBtn').style.display='block';}
+
+function submitAnswer(){
+  if(selectedChoice===null||answered)return;answered=true;
+  const q=currentQ;const ok=selectedChoice===q.correct;
+  sessionTotal++;if(ok)sessionCorrect++;
+  state.total++;if(ok){state.correct++;state.streak++;if(state.streak>state.best)state.best=state.streak;}else{state.streak=0;}
+  const sk=q.skill;if(!state.acc[sk])state.acc[sk]={c:0,t:0};state.acc[sk].t++;if(ok)state.acc[sk].c++;
+  if(!ok)state.errors[q.topic]=(state.errors[q.topic]||0)+1;
+  saveState();
+  document.querySelectorAll('.choice-btn').forEach((b,idx)=>{
+    b.classList.remove('selected');
+    if(idx===q.correct)b.classList.add(ok&&idx===selectedChoice?'correct':'reveal-correct');
+    else if(idx===selectedChoice&&!ok)b.classList.add('incorrect');
+    b.style.pointerEvents='none';
+  });
+  document.getElementById('sessionCorrect').textContent=sessionCorrect;
+  document.getElementById('sessionTotal').textContent=sessionTotal;
+  document.getElementById('submitBtn').style.display='none';
+  document.getElementById('nextBtn').style.display='block';
+  document.getElementById('explainBtn').style.display='block';
+  const pct=state.total>0?state.correct/state.total:0;
+  const est=state.total>0?Math.round(400+pct*1200):'—';
+  document.getElementById('globalScore').textContent='Score: ~'+est;
+  const mob=document.getElementById('mobileScore');if(mob)mob.textContent='~'+est;
+}
+
+function toggleExplain(){const b=document.getElementById('explainBox');b.classList.toggle('show');document.getElementById('explainBtn').textContent=b.classList.contains('show')?'Hide Explanation':'Show Explanation';}
+function nextQuestion(){document.getElementById('explainBtn').textContent='Show Explanation';loadQuestion();}
+
+// ═══════════ TRACKER ═══════════
+function updateTracker(){
+  document.getElementById('trkTotal').textContent=state.total;
+  document.getElementById('trkCorrect').textContent=state.correct;
+  document.getElementById('trkStreak').textContent=state.streak;
+  document.getElementById('trkSessions').textContent=state.sessions;
+  const skillMap={cs:['cs-bar','cs-pct'],ii:['ii-bar','ii-pct'],ei:['ei-bar','ei-pct'],se:['se-bar','se-pct'],al:['al-bar','al-pct'],am:['am-bar','am-pct'],ds:['ds-bar','ds-pct'],gt:['gt-bar','gt-pct']};
+  Object.entries(skillMap).forEach(([sk,[barId,pctId]])=>{
+    const d=state.acc[sk];const pct=d&&d.t>0?Math.round((d.c/d.t)*100):null;
+    const bar=document.getElementById(barId);const pctEl=document.getElementById(pctId);
+    if(bar)bar.style.width=(pct||0)+'%';if(pctEl)pctEl.textContent=pct!==null?pct+'%':'—';
+  });
+  const logEl=document.getElementById('errorLogList');
+  const entries=Object.entries(state.errors).sort((a,b)=>b[1]-a[1]);
+  if(!entries.length){logEl.innerHTML='<div style="color:var(--muted);font-size:0.85rem;padding:16px 0;text-align:center">Complete practice questions to populate your error log.</div>';}
+  else{const colors=['#ef4444','#f0b429','#8b5cf6','#06b6d4','#10b981'];logEl.innerHTML=entries.map(([t,n],i)=>`<div class="log-entry"><div class="log-dot" style="background:${colors[i%5]}"></div><div class="log-topic">${t}</div><div class="log-count">${n} missed</div></div>`).join('');}
+}
+function clearProgress(){
+  if(!confirm('Reset all progress? Your API key will be kept.'))return;
+  state={acc:{cs:{c:0,t:0},ii:{c:0,t:0},ei:{c:0,t:0},se:{c:0,t:0},al:{c:0,t:0},am:{c:0,t:0},ds:{c:0,t:0},gt:{c:0,t:0}},errors:{},seen:[],total:0,correct:0,streak:0,best:0,sessions:1};
+  saveState();sessionCorrect=0;sessionTotal=0;
+  document.getElementById('sessionCorrect').textContent='0';document.getElementById('sessionTotal').textContent='0';
+  document.getElementById('globalScore').textContent='Score: —';updateTracker();
+}
+
+// ═══════════ SIMULATOR ═══════════
+function updateSimulator(){
+  const rw=parseInt(document.getElementById('rwAccuracy').value);const math=parseInt(document.getElementById('mathAccuracy').value);
+  document.getElementById('rwAccVal').textContent=rw+'%';document.getElementById('mathAccVal').textContent=math+'%';
+  const rwS=Math.round(200+(rw/100)*600);const mS=Math.round(200+(math/100)*600);const tot=rwS+mS;
+  document.getElementById('simRW').textContent=rwS;document.getElementById('simMath').textContent=mS;document.getElementById('simTotal').textContent=tot;
+  const el=document.getElementById('scoreTier');let tier,color;
+  if(tot>=1500){tier='🏆 Elite — Top 1%';color='#f0b429';}else if(tot>=1400){tier='🌟 Excellent — Top 5%';color='#10b981';}
+  else if(tot>=1200){tier='✅ Strong — Above Average';color='#06b6d4';}else if(tot>=1000){tier='📈 Developing';color='#8b5cf6';}
+  else{tier='🔧 Early Stage — Keep Building';color='#7a8ba3';}
+  el.textContent=tier;el.style.background=color+'22';el.style.color=color;
+}
+
+// ═══════════ CONTENT GUIDE ═══════════
+function buildContentGuide(){
+  const mathEl=document.getElementById('math-topics');
+  mathTopics.forEach(t=>{mathEl.innerHTML+=`<div class="topic-row" onclick="toggleTopic(this)"><div class="topic-row-header"><div class="topic-row-title">📐 ${t.title}</div><div class="topic-row-arrow">›</div></div><div class="topic-row-body"><p>${t.body}</p><div class="example-box"><div class="ex-label">${t.example.label}</div>${t.example.text.replace(/\n/g,'<br>')}</div></div></div>`;});
+  const rwEl=document.getElementById('rw-topics');
+  rwTopics.forEach(t=>{rwEl.innerHTML+=`<div class="topic-row" onclick="toggleTopic(this)"><div class="topic-row-header"><div class="topic-row-title">📖 ${t.title}</div><div class="topic-row-arrow">›</div></div><div class="topic-row-body"><p>${t.body}</p><div class="example-box"><div class="ex-label">${t.example.label}</div>${t.example.text.replace(/\n/g,'<br>')}</div></div></div>`;});
+}
+function toggleTopic(el){el.classList.toggle('open');}
+
+// ═══════════ INIT ═══════════
+state.sessions=(state.sessions||0)+1;saveState();
+buildContentGuide();buildTopicSelector();checkApiKeyDisplay();updateSimulator();loadQuestion();
+</script></body></html>
